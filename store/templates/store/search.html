@@ -1,0 +1,63 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+  @media(max-width:767px) {
+    .my-card {
+      max-width: 50%;
+
+    }
+  }
+</style>
+<div class="container margin-top">
+  {% if products %}
+  <h4>Showing search results for: <strong>{{query}}</strong></h4>
+  <br>
+  <div class="row mx-auto">
+    {% for products in products %}
+    <!-- Grid column -->
+    <div class="col-md-3 mb-5 my-card">
+
+      <!-- Card -->
+      <div class="">
+
+        <div class="view zoom overlay rounded z-depth-2">
+          <img class="img-fluid w-100" src="{{products.imageURL}}" alt="Sample">
+          <a href="{% url 'products' %}{{products.id}}">
+            <div class="mask">
+              <img class="img-fluid w-100" src="{{products.imageURL}}">
+              <div class="mask rgba-black-slight"></div>
+            </div>
+          </a>
+        </div>
+
+        <div class="text-center pt-4">
+
+          <h5>{{products.name}}</h5>
+          <p><span class="mr-1"><strong>Rs {{products.price}}</strong></span></p>
+
+        </div>
+
+      </div>
+      <!-- Card -->
+
+    </div>
+    <!-- Grid column -->
+
+    {% endfor %}
+  </div>
+  {% else %}
+  <div style="padding-bottom:20%;">
+    <h4> Your search <strong>{{query}}</strong> -did not match any products.</h4>
+
+    <p>Suggestions:</p>
+    <ul>
+      <li>Make sure that all words are spelled correctly.</li>
+      <li>Try different keywords.</li>
+      <li>Try more general keywords.</li>
+      <li>Eg. Saree</li>
+    </ul>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

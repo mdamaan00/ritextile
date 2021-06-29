@@ -1,0 +1,33 @@
+.btn:focus {
+  border-color: #a3004c;
+  background-color: #a3004c;
+  box-shadow: 0 0 0 0.2rem #a3004c49;
+  outline: 0 none;
+}
+.form-control:focus {
+  border-color: #a3004c;
+  box-shadow: 0 0 0 0.18rem #a3004c49;
+  outline: 0 none;
+}
+
+input[type="button"]:focus {
+  border-color: #a3004c;
+  box-shadow: 0 0 0 0.18rem #a3004c49;
+  outline: 0 none;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #a3004c;
+  background-color: #a3004c;
+  box-shadow: 0 0 0 0.15rem #a3004c49;
+}
+
+.btn,
+.btn-success:hover,
+.btn-success:active,
+.btn-success:visited,
+.btn-success:focus {
+  background-color: #a3004c;
+  border-color: #a3004c;
+}

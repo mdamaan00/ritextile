@@ -1,0 +1,14 @@
+Hello,{{customer.first_name}} {{customer.last_name}}
+
+This is a confirmation mail
+that your order has been succesfully placed!
+
+Your Order Id is: {{order.id}}
+
+Product Name Quantity Price
+{% for item in items %}
+{{item.product.name}} {{item.quantity}} Rs {{item.product.price}}
+{% endfor %}
+
+Thanks for your purchase!
+R.I Textiles

@@ -1,0 +1,443 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block prodactive %}active{% endblock %}
+{% block content %}
+{% load store_extras %}
+<link rel="stylesheet" href="{% static 'css/prodcard.css' %}">
+<style>
+  .color1 {
+    color: #000000;
+  }
+
+  .brd {
+    font-size: larger;
+    font-weight: bold;
+    color: #a3004c;
+  }
+
+  .brd:hover {
+    text-decoration: none;
+    color: #5c012b;
+  }
+
+  .my-list {
+    background-color: rgba(165, 163, 163, 0.589);
+    color: #a3004c;
+    border-width: 0ch;
+    transition: 0.3s;
+  }
+
+  .my-list:hover {
+    text-decoration: none;
+    background-color: #a3004c;
+    color: aliceblue;
+    text-decoration: none;
+
+  }
+
+  .filter-form {
+    color: #000000;
+    font-weight: 400;
+  }
+
+  .msg {
+    padding: 10px;
+    margin-bottom: 10px;
+    color: rgb(12, 71, 37);
+
+    text-align: center;
+    display: block;
+    background-color: rgba(98, 185, 95, 0.514);
+    border: 2px solid rgb(31, 110, 48);
+    border-radius: 8px;
+  }
+
+  .active {
+    color: #a3004c;
+  }
+
+  .filter-form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #dfdede;
+    width: 100%;
+    border: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+  .filter-form select {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #dfdede;
+    width: 100%;
+    border: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+
+
+
+
+
+  .big-filter {
+    position: sticky !important;
+    top: 11.5rem;
+
+
+  }
+
+
+  @media(max-width:1199px) {
+    .view {
+      max-height: 14rem !important;
+    }
+  }
+
+
+
+  @media(max-width:991px) {
+
+
+    .big-filter {
+      display: none;
+    }
+
+    .view {
+      max-height: 10.5rem !important;
+    }
+
+  }
+
+  @media (min-width:992px) {
+    .small-filter {
+      display: none;
+    }
+  }
+
+  @media(max-width:767px) {
+    .my-card {
+      max-width: 50%;
+
+    }
+
+    .view {
+      max-height: 19rem !important;
+    }
+  }
+
+
+  .view {
+    max-height: 20rem;
+  }
+
+
+  .btn-custom {
+
+    background-color: #a3004c;
+    border-radius: 6px;
+    position: relative;
+    font-weight: 500;
+    padding: 12px 42px 12px 12px;
+    width: 100%;
+    line-height: 1.3;
+    color: #dfdede;
+  }
+
+  .btn-custom:hover {
+    color: #dfdede;
+  }
+
+  .btn-custom .filter {
+    position: absolute;
+    height: 42px;
+    width: 42px;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+
+
+
+
+  .btn-custom .filter span,
+  .btn-custom .filter span:before,
+  .btn-custom .filter span:after {
+    transition: all .3s ease-in-out;
+    background: #fff;
+    position: absolute;
+  }
+
+  .btn-custom .filter span:before,
+  .btn-custom .filter span:after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    left: -3px;
+  }
+
+  .btn-custom .filter span {
+    height: 10px;
+    width: 4px;
+    top: 10px;
+    left: 14px;
+    box-shadow: 8px 11px 0 #fff;
+  }
+
+  .btn-custom .filter span:before {
+    top: 4px;
+  }
+
+  .btn-custom .filter span:after {
+    top: 15px;
+  }
+
+  .content {
+    border-radius: 4px;
+  }
+
+
+
+  .btn[aria-expanded=true] .filter span {
+    transition: all .1s ease-in-out;
+    background: transparent;
+    box-shadow: 8px 11px 0 transparent;
+  }
+
+
+  .btn[aria-expanded=true] .filter::after,
+  .btn[aria-expanded=true] .filter::before {
+    opacity: 0
+  }
+
+  .btn[aria-expanded=true] .filter span.rotate::after,
+  .btn[aria-expanded=true] .filter span.rotate::before {
+    opacity: 1
+  }
+
+  .btn[aria-expanded=true] .filter span.rotate::before {
+    -webkit-transform: rotate(45deg)translate(4px, 4px);
+    -ms-transform: rotate(45deg)translate(4px, 4px);
+    transform: rotate(45deg)translate(4px, 4px);
+  }
+
+  .btn[aria-expanded=true] .filter span.rotate::after {
+    -webkit-transform: rotate(-45deg)translate(4px, -4px);
+    -ms-transform: rotate(-45deg)translate(4px, -4px);
+    transform: rotate(-45deg)translate(4px, -4px);
+  }
+</style>
+<div class="container margin-top">
+  <nav style="font-size:small;" aria-label="breadcrumb" class="">
+    <ol class="breadcrumb" style="background-color: #00000000;">
+      <li class="breadcrumb-item"><a style="color: black;font-weight: bold;" href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Products</li>
+    </ol>
+  </nav>
+  <div class="row">
+
+    <div class="col-md-4">
+      <button class="btn btn-custom collapsed border-0 small-filter mb-4" type="button" data-toggle="collapse"
+        data-target="#content" aria-expanded="false" aria-controls="content">
+
+        <span class="filter">
+          <span class="rotate"></span>
+        </span>
+
+        <span class="filter-text"><i class="fa fa-filter"></i> Filters</span>
+
+      </button>
+
+      <div class="content collapse bg-white shadow-lg py-4 mb-4" id="content">
+        <div class="container">
+          <form action="" method="get">
+            <div class="list-group mx-auto">
+              <p class="filter-form">Category: {{myfilter.form.category}}</p>
+              <p class="filter-form">Material: {{myfilter.form.material}}</p>
+              <p class="filter-form">Dyeable: {{myfilter.form.dyeable}}</p>
+              <p class="filter-form align">Min: {{myfilter.form.PriceFrom}}</p>
+              <p class="filter-form align">Max: {{myfilter.form.PriceTo}}</p>
+
+              <button class=" btn my-list" type="submit"> Filter </button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="big-filter">
+        <div class="alert alert-info" role="alert" data-mdb-color="info"><i class="fa fa-info-circle"></i> Dyeable
+          product's may take longer to ship.</div>
+        <form action="" method="get">
+          <div class="list-group mx-auto">
+            <p class="filter-form">Category: {{myfilter.form.category}}</p>
+            <p class="filter-form">Material: {{myfilter.form.material}}</p>
+            <p class="filter-form">Dyeable: {{myfilter.form.dyeable}}</p>
+            <p class="filter-form align">Min: {{myfilter.form.PriceFrom}}</p>
+            <p class="filter-form align">Max: {{myfilter.form.PriceTo}}</p>
+
+            <button class=" btn my-list" type="submit"> Filter </button>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="col-md-8 ">
+
+      <section>
+
+        <!-- Grid row -->
+        <div class="row">
+          {% for products in products_page_obj %}
+          <!-- Grid column -->
+          <div class="col-md-4 mb-5 my-card">
+
+            <!-- Card -->
+            <div class="">
+
+              <div class="view zoom overlay rounded z-depth-2">
+                <img class="img-fluid w-100" src="{{products.imageURL}}" alt="Sample">
+                <a href="{% url 'products' %}{{products.id}}">
+                  <div class="mask">
+                    <img class="img-fluid w-100" src="{{products.imageURL}}">
+                    <div class="mask rgba-black-slight"></div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="text-center pt-4">
+
+                <h5>{{products.name}}</h5>
+                <p><span class="mr-1"><strong>Rs {{products.price}}</strong></span></p>
+
+              </div>
+
+            </div>
+            <!-- Card -->
+
+          </div>
+          <!-- Grid column -->
+          {% endfor %}
+        </div>
+        <!-- Grid row -->
+
+      </section>
+      <hr>
+      <div class="row mx-auto justify-content-md-center">
+        <div class="col-12 col-md-4 text-center">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-circle justify-content-center mb-0">
+              {% if products_page_obj.has_previous %}
+              <li class="page-item"><a class="page-link" href="{% my_url 1 'page' request.GET.urlencode %}"><i
+                    class="fas fa-chevron-left"></i></a></li>
+              <li class="page-item"><a class="page-link"
+                  href="{% my_url products_page_obj.previous_page_number 'page' request.GET.urlencode %}">{{products_page_obj.previous_page_number}}</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled"><a class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+              {% endif %}
+              <li class="page-item active"><a class="page-link" style="background-color: #a3004c;">{{products_page_obj.number }}</a> </li>
+              {% if products_page_obj.has_next %}
+              <li class="page-item"><a class="page-link"
+                  href="{% my_url products_page_obj.next_page_number 'page' request.GET.urlencode %}">{{products_page_obj.next_page_number}}</a>
+              </li>
+              <li class="page-item"><a class="page-link"
+                  href="{% my_url products_page_obj.paginator.num_pages 'page' request.GET.urlencode %}"><i
+                    class="fas fa-chevron-right"></i></a></li>
+              {% else %}
+              <li class="page-item disabled"><a class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  var cat = document.getElementsByClassName("id_category");
+  var mat = document.getElementsByClassName('id_material');
+  var dye = document.getElementsByClassName('id_dyeable');
+  var arr = [cat, mat, dye];
+  dye[0].innerHTML = 'Select';
+  mat[0].innerHTML = "All Materials"
+  cat[0].innerHTML = "All Categories";
+
+
+
+    // var rev = document.getElementsByClassName("my-element")
+    // var rev1 = [];
+    // for (var i= 0;i<rev.length;i++){
+    //   rev1.push(rev[i]);
+    // }
+    // var wrapp = document.getElementById("this-row");
+    // let current_page = 1;
+    // let rows = 7;
+    // function displayList(items,wrapper,rows_per_page,page){
+    //   wrapper.innerHTML="";
+    //   page--;
+    //   let start = rows_per_page * page;
+    //   let end = start + rows_per_page;
+    //   let paginatedItems = items.slice(start,end);
+
+    //   for (var i=0 ; i<paginatedItems.length;i++ ){
+    //     let item = paginatedItems[i];
+    //     wrapper.appendChild(item);
+
+    //   }
+
+    // }
+
+    // wrapp2 = document.getElementById("pagination");
+    // console.log(wrapp2)
+    // function setupPagination(items,wrapper,rows_per_page){
+    //   wrapper.innerHTML="";
+    //   let page_count = Math.ceil(items.length/rows_per_page);
+    //   for (var i = 1; i< page_count+1;i++){
+    //     let btn=PaginationButton(i,items);
+    //     wrapper.appendChild(btn);
+    //   }
+    // }
+    // function PaginationButton(page,items){
+    //   let button = document.createElement('li');
+    //   let a = document.createElement('p');
+    //   a.classList.add('page-link');
+    //   a.innerText=page;
+    //   button.appendChild(a);
+    //   button.classList.add('page-item');
+    //   if (current_page==page) button.classList.add("active");
+    //   button.addEventListener('click', function (e){
+    //     current_page = page;
+    //     displayList(items,wrapp,rows,current_page);
+    //     let current_button = document.querySelector('.pagination li.active');
+    //     current_button.classList.remove('active');
+    //     this.classList.add('active');
+    //   })
+
+
+    //   return button;
+    // }
+    // setupPagination(rev1,wrapp2,rows);
+    // displayList(rev1,wrapp,rows,current_page);
+
+
+
+
+
+</script>
+
+{% endblock content %}

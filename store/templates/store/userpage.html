@@ -1,0 +1,90 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .my-link {
+        color: #a3004c;
+        font-weight: bolder;
+    }
+
+    @media (max-width:1199px) {
+        .btn-success {
+            padding: 5px;
+            font-size: small;
+        }
+
+        h1,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: medium
+        }
+    }
+</style>
+
+<div class="container margin-top">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="box-element ">
+                <div class="card-body">
+                    {% for message in messages %}
+                    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                    <h3><strong>Your Details</strong></h3>
+                    <p>Name: <strong>{{customer.first_name}} {{customer.last_name}}</strong></p>
+                    <p>E-Mail: <strong>{{customer.email}}</strong></p>
+                    {% if customer.email %}
+                    <p><a class="my-link" href="{% url 'change_password' %}">Click here to change password</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {% if orders %}
+            <div class="box-element">
+                <div class="card-body">
+                    <h3>Your Orders:</h3>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Order ID</h4>
+                        </div>
+                        <div class="col">
+                            <h4>Date Ordered</h4>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <hr>
+                    {% for order in orders %}
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <p>#{{order.id}}</p>
+                        </div>
+                        <div class="col">
+                            <p>{{order.date_orderd}}</p>
+                        </div>
+                        <div class="col" style="text-align: right;">
+                            <a href="order-details/{{order.id}}" class="btn btn-success">Details</a>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div style="text-align: center; padding-top: 20%; padding-bottom: 20%;">
+                <h1 class="mb-4">Looks like you haven't ordered anything.</h1>
+                <a class=" my-btn" href="{% url 'home' %}">« Continue Shopping</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,285 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+    /* The Modal (background) */
+
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 250px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    @media (max-width:575px) {
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+    }
+
+
+    .my-link {
+        color: black;
+    }
+
+    .my-link:hover {
+        color: #a3004c;
+    }
+</style>
+
+
+
+
+<div class="container margin-top">
+    <nav style="font-size:small;" aria-label="breadcrumb" class="mt-4">
+        <ol class="breadcrumb" style="background-color: #00000000;">
+            <li class="breadcrumb-item"><a style="color: black;font-weight: bold;"
+                    href="/products/{{product.id}}">{{product.name}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">All Reviews</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <img width="100%" style="border-radius: 6px;" src="{{product.imageURL}}" alt="">
+                <h3 class="mt-2"><strong>{{product.name}}</strong></h3>
+                <p class="text-uppercase">{{product.category}}</p>
+
+                <ul class="rating">
+                    <li>
+                        <i
+                            class="fa-star fa-sm  {% if product.avg_review < 1 or not product.avg_review %}far{% else %}fas{% endif %} "></i>
+                    </li>
+                    <li>
+                        <i
+                            class="fa-sm {% if product.avg_review > 1 and product.avg_review < 2  %}fas fa-star-half-alt{% elif product.avg_review < 2 or not product.avg_review %}far fa-star{% else %}fas fa-star{% endif %} "></i>
+                    </li>
+                    <li>
+                        <i
+                            class=" fa-sm  {% if product.avg_review > 2 and product.avg_review < 3  %}fas fa-star-half-alt{% elif product.avg_review < 3 or not product.avg_review %}far fa-star{% else %}fas fa-star{% endif %} "></i>
+                    </li>
+                    <li>
+                        <i
+                            class=" fa-sm {% if product.avg_review > 3 and product.avg_review < 4  %}fas fa-star-half-alt{% elif product.avg_review < 4 or not product.avg_review %}far fa-star{% else %}fas fa-star{% endif %} "></i>
+                    </li>
+                    <li>
+                        <i
+                            class=" fa-sm {% if product.avg_review > 4 and product.avg_review < 5  %}fas fa-star-half-alt {% elif product.avg_review < 5 or not product.avg_review %}fa-star far{% else %}fas fa-star{% endif %} "></i>
+                    </li>
+                </ul>
+                <h3><strong>Rs {{product.price}}</strong></h3>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            {% for review in reviews %}
+            <div class="media mt-3 mb-4 added-reviews">
+                <img class="d-flex mr-3 z-depth-1" src="https://mdbootstrap.com/img/Photos/Others/placeholder1.jpg"
+                    width="62" alt="Generic placeholder image">
+                <div class="media-body">
+                    <div class="d-sm-flex justify-content-between">
+                        <p class="mt-1 mb-2">
+                            <strong>{{review.customer.first_name}} </strong>
+                            <span>– </span><span>{{review.date_added}}</span>
+                        </p>
+                        <ul class="rating mb-sm-0">
+                            <li>
+                                <i class="fa-star fa-sm  {% if review.rating < 1 %}far{% else %}fas{% endif %} "></i>
+                            </li>
+                            <li>
+                                <i class="fa-star fa-sm {% if review.rating < 2 %}far{% else %}fas{% endif %} "></i>
+                            </li>
+                            <li>
+                                <i class="fa-star fa-sm  {% if review.rating < 3 %}far{% else %}fas{% endif %} "></i>
+                            </li>
+                            <li>
+                                <i class="fa-star fa-sm {% if review.rating < 4 %}far{% else %}fas{% endif %} "></i>
+                            </li>
+                            <li>
+                                <i class="fa-star fa-sm  {% if review.rating < 5 %}far{% else %}fas{% endif %} "></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="mb-0">
+                            <p>{{review.comment}}
+                                {% if request.user.is_authenticated %}
+                                {% if review.customer == request.user %}
+                                <span style="float: right;"><a href="#delete"
+                                        class="my-link myBtn_multi">Delete</a></span>
+                            <div class="modal modal_multi">
+
+                                <!-- Modal content -->
+                                <div style="text-align: center;" class="modal-content">
+
+                                    <p>Are you sure you want to delete this review?</p>
+                                    <span>
+                                        <button href="#delete" data-id="{{review.id}}" type="button"
+                                            class="del_review btn btn-success">Remove</button>
+                                        <a style="color:#fefefe;" type="button"
+                                            class="btn-success btn close_multi">No</a>
+                                    </span>
+                                </div>
+
+                            </div>
+                            {% endif %}
+                            {% endif %}
+
+                            </p>
+                        </span>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+<script>
+    var del = $('.del_review');
+    console.log(del);
+    for (var i = 0; i < del.length; i++) {
+        del[i].addEventListener('click', function (e) {
+            e.preventDefault()
+            var token = "{{csrf_token}}";
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                type: "POST",
+                url: "/products/{{product.id}}/",
+                data: { 'id': this.dataset.id },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data.msg);
+                    window.location.reload()
+                }
+
+            });
+
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // Get the modal
+
+    var modalparent = document.getElementsByClassName("modal_multi");
+
+    // Get the button that opens the modal
+
+    var modal_btn_multi = document.getElementsByClassName("myBtn_multi");
+
+    // Get the <span> element that closes the modal
+    var span_close_multi = document.getElementsByClassName("close_multi");
+
+    // When the user clicks the button, open the modal
+    function setDataIndex() {
+
+        for (i = 0; i < modal_btn_multi.length; i++) {
+            modal_btn_multi[i].setAttribute('data-index', i);
+            modalparent[i].setAttribute('data-index', i);
+            span_close_multi[i].setAttribute('data-index', i);
+        }
+    }
+
+
+
+    for (i = 0; i < modal_btn_multi.length; i++) {
+        modal_btn_multi[i].onclick = function () {
+            var ElementIndex = this.getAttribute('data-index');
+            modalparent[ElementIndex].style.display = "block";
+        };
+
+        // When the user clicks on <span> (x), close the modal
+        span_close_multi[i].onclick = function () {
+            var ElementIndex = this.getAttribute('data-index');
+            modalparent[ElementIndex].style.display = "none";
+        };
+
+    }
+
+    window.onload = function () {
+
+        setDataIndex();
+    };
+
+    window.onclick = function (event) {
+        if (event.target === modalparent[event.target.getAttribute('data-index')]) {
+            modalparent[event.target.getAttribute('data-index')].style.display = "none";
+        }
+
+        // OLD CODE
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+
+
+
+    // Get the modal
+
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+</script>
+
+{% endblock %}

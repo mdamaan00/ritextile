@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+
+<script type="text/javascript">
+
+</script>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {{form}}
+    {% if form.RESPCODE == '01' %}
+    <h1>Success</h1>
+    {% else %}
+    <h1>Failed</h1>
+    {% endif %}
+    <a class="my-btn mt-5 clickable" style="margin-bottom: 100px;" href="{% url 'home' %}">&lsaquo; Continue
+        shopping</a>
+</body>
+
+</html>

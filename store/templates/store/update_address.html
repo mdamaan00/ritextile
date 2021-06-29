@@ -1,0 +1,146 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+    footer{
+        display: none;
+    }
+</style>
+<div class="container margin-top mb-3">
+    <div class="row">
+        <div class="col">
+        <div class="box-element">
+            <form action="" method="POST" class="card-body">
+                {% csrf_token %}
+              <!--Grid row-->
+              <h4>Update your shipping Info:</h4>
+                <hr>
+              <div class="row" >
+                
+                <!--Grid column-->
+                <div class="col-md-6 mb-2">
+                
+                  <!--firstName-->
+                  <div class=" ">
+                    <label for="firstName" class="">First name</label>
+                    <input value="{{address.first_name}}" type="text" id="firstName" class="form-control" name="first_name">
+                    
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-2">
+
+                  <!--lastName-->
+                  <div class="">
+                    <label for="lastName" class="">Last name</label>
+                    <input value="{{address.last_name}}" type="text" id="lastName" class="form-control" name="last_name">
+                    
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+              </div>
+              <!--Grid row-->
+              
+             
+              
+              <!--address-->
+              <div class="mb-5">
+                <label for="address" class="">Address</label>
+                <input value="{{address.address}}" type="text" name="address" id="address" class="form-control" placeholder="">
+                
+              </div>
+              <!--Grid row-->
+              <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                  <label for="city">City</label>
+                  <input value="{{address.city}}" type="text" name="city" class="form-control" id="city" placeholder="" required>
+                  <div class="invalid-feedback">
+                    City code required.
+                  </div>
+                </div>
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-4">
+                  <label for="states">State</label>
+                  <select  class="custom-select d-block w-100 form-control" id="states" name="state" required>
+                    <option value="">Choose...</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Arunachal Pradesh</option>
+                    <option>Assam</option>
+                    <option>Bihar</option>
+                    <option>Chhattisgarh</option>
+                    <option>Delhi</option>
+                    <option>Goa</option>
+                    <option>Gujarat</option>
+                    <option>Haryana</option>
+                    <option>Himachal Pradesh</option>
+                    <option>Jammu and Kashmir</option>
+                    <option>Jharkhand</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Maharashtra</option>
+                    <option>Manipur</option>
+                    <option>Meghalaya</option>
+                    <option>Mizoram</option>
+                    <option>Nagaland</option>
+                    <option>Orissa</option>
+                    <option>Punjab</option>
+                    <option>Rajasthan</option>
+                    <option>Sikkim</option>
+                    <option>Tamil Nadu</option>
+                    <option>Telangana</option>
+                    <option>Tripura</option>
+                    <option>Uttarakhand</option>
+                    <option>Uttar Pradesh</option>
+                    <option>West Bengal</option>        
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid state.
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+                
+            
+
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                  <label for="zip">Zip</label>
+                  <input value="{{address.zipcode}}" type="text" name="zipcode" class="form-control" id="zip" placeholder="" required>
+                  <div class="invalid-feedback">
+                    Zip code required.
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+              </div>
+              <div class="row">
+              <!--Grid row-->
+              <div class="col-lg-3 mb-4">
+                <label for="phonenumber">Phone number</label>
+                <input value="{{address.phonenumber}}" type="tel" name="phonenumber" class="form-control" id="phonenumber" placeholder="" required>
+                <div class="invalid-feedback">
+                  Phone number required.
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-success btn-block text-uppercase" type="submit">Update Address <i class="fa fa-pen"></i></button>
+            
+            
+      
+
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock content %}

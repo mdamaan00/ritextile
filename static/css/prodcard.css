@@ -1,0 +1,156 @@
+
+    .my-height{
+        max-height: 34rem;
+    }
+    
+    .prod-element{
+      width: 250px;
+      box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      /*position: absolute;
+      left: 50%;
+      right: 50%;
+      transform: translate(-50%,-50%);*/
+      margin: auto;
+      margin-bottom: 20px;
+    }
+
+ 
+    
+    .slider{
+      height: 350px;
+      position: relative;
+    }
+   
+    .slider img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      box-sizing: border-box;
+    }
+    .info{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      box-sizing: border-box;
+      height: 100px;
+    }
+    .type{
+      display: flex;
+      flex-direction: column;
+    }
+    .type a{
+      color: black;
+      
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding-right: 8px;
+    }
+    .type a:hover{
+      text-decoration: none;
+    }
+    .type span{
+      color: rgba(48, 38, 38,0.5);
+      font-weight: 500;
+    }
+    .price{
+      color: black;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.5px;
+      
+    }
+    .price:hover{
+      text-decoration: none;
+      color: black;
+    }
+    .button{
+      width: 160px;
+      height: 40px;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(105, 105, 105);
+      border-radius: 20px;
+      color: rgb(255, 255, 255);
+      letter-spacing: 1px;
+      font-weight: 600;
+      box-shadow:2px 2px 30px rgba(0, 0, 0, 0.2);
+      margin:10px;
+    }
+    @media (max-width: 600px) {
+      .info{
+        display: block;
+      }
+      .price{
+        font-size: 1rem;
+        align-items: baseline;
+      }
+      .type a{
+        font-size: 15px;
+      }
+      .type span{
+        font-size: 15px;
+        
+      }
+      .type{
+        display: inline-flex;
+        flex-direction: row;
+      }
+      .slider{
+        height: 170px;
+        position: relative;
+      }
+      .prod-element{
+        width: 170px;
+        
+      }
+      .button{
+        width: 100px;
+        font-size: 0.9rem;
+      }
+    }
+    .buy{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform:translate(-50%,-50%);
+      width: 100%;
+      height: 100%;
+      background-color: aliceblue;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .button:hover{
+      color: aliceblue;
+      text-decoration: none;
+      background-color: #a3004c;
+      transition: all ease-in-out 0.3s;
+      visibility: hidden;
+    }
+    .buy{
+      visibility: hidden;
+    }
+    .slider:hover .buy{
+      visibility: visible;
+      animation: fadeimage 0.5s;
+    }
+    .slider:hover .button{
+      visibility: visible;
+    }
+    @keyframes fadeimage {
+      0%{
+        opacity: 0;
+      }
+      
+      100%{
+        opacity: 1;
+      }
+    }

@@ -1,0 +1,715 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+  /* The Modal (background) */
+
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 250px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+  }
+
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  @media (max-width:575px) {
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+  }
+
+
+
+
+  .custom-control {
+    border-radius: 6px;
+    border: #afafafc4 solid 1px;
+    padding: 10px 0px 10px 40px;
+  }
+
+  .my-link {
+    color: black;
+  }
+
+  .my-link:hover {
+    color: #a3004c;
+  }
+</style>
+
+<div class="container margin-top">
+  {% for message in messages %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-info-circle mr-1"></i>{{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  <div class="row">
+    <!--Grid column-->
+    <div class="col-md-8 mb-4">
+      <!--Card-->
+      <div class="box-element" id="form-wrapper">
+        <div class="">
+          <p class="alert alert-info mb-2"><i class="fas fa-info-circle mr-1"></i>You can add upto 3 addresses.</p>
+        </div>
+        <!--Card content-->
+        {% if address %}
+        <form class="" action="{% url 'process_order' %}" id="form" method="POST">
+          {% csrf_token %}
+          <h3>Select an address:</h3>
+
+          {% for address in address %}
+
+          <!-- Group of default radios - option 1 -->
+          <div class="custom-control custom-radio mb-2">
+            <input type="radio" class="custom-control-input" id="{{address.id}}" name="groupOfDefaultRadios" required
+              value="{{address.id}}">
+            <label style="cursor: pointer;" class="custom-control-label" for="{{address.id}}">
+              <p><strong>Name:</strong> {{address.first_name}} {{address.last_name}}</p>
+              <p><strong>Address:</strong> {{address.address}}</p>
+              <p>{{address.city}}, {{address.state}}</p>
+              <p><strong>Zipcode:</strong> {{address.zipcode}}</p>
+              <p><strong>Phone No.:</strong> {{address.phonenumber}}</p>
+              <span><a href="/profile/update_address/{{address.id}}" data-id="{{address.id}}"
+                  class=" my-link update">Edit</a> |
+                <a href="#delete" class="my-link myBtn_multi">Remove</a>
+              </span>
+              <div class="modal modal_multi">
+
+                <!-- Modal content -->
+                <div style="text-align: center;" class="modal-content">
+
+                  <p>Are you sure you want to remove this address?</p>
+                  <span>
+                    <button href="#delete" data-id="{{address.id}}" type="button"
+                      class="btn btn-success delete">Remove</button>
+                    <a style="color:#fefefe;" type="button" class="btn btn-success close_multi">No</a>
+                  </span>
+                </div>
+
+              </div>
+            </label>
+          </div>
+
+
+          {% endfor %}
+
+          <div class="">
+            <button id="form-button" data-num='1' class="btn btn-success btn-block text-uppercase">Continue to
+              checkout</button>
+          </div>
+
+          <div class=" hidden" id="payment-info">
+            <h3>Payment options:</h3>
+            <div class="custom-control custom-radio mb-2">
+              <input type="radio" class="custom-control-input" id="cod" name="payment" required value="cod" disabled>
+              <label style="cursor: pointer;" class="custom-control-label" for="cod">
+                <strong>COD</strong>
+                <span class="alert"><i class="fas fa-info-circle"></i> COD is temporarily disabled due to COVID
+                  reasons.</span>
+              </label>
+            </div>
+            <div class="custom-control custom-radio mb-2">
+              <input type="radio" class="custom-control-input" id="paytm" name="payment" required value="paytm">
+              <label style="cursor: pointer;" class="custom-control-label" for="paytm">
+                <img src="{% static 'images/Paytm.png' %}" style="width: 70px;" alt="...">
+              </label>
+              <span>(Powered by Paytm)</span>
+            </div>
+            <button id="make-payment" type="submit" class="btn btn-success btn-block text-uppercase">Checkout</button>
+            <div id="spinner" class="spinner-border text-dark hidden" role="status">
+              <span class="sr-only">Loading... </span>
+            </div>
+          </div>
+        </form>
+
+
+        {% endif %}
+        {% if address|length > 0 and address|length < 3 %} <h5 class="container text-center divider-new version-1">
+          <strong>OR</strong></h5>
+          {% endif %}
+          {% if address|length == 0 %}
+          <form action="" method="POST" class="">
+            {% csrf_token %}
+            <!--Grid row-->
+            <h4>Shipping Info:</h4>
+            <hr>
+            <div class="row">
+
+              <!--Grid column-->
+              <div class="col-md-6 mb-2">
+
+                <!--firstName-->
+                <div class=" ">
+                  <label for="firstName" class="">First name</label>
+                  <input value="{{address.first_name}}" type="text" id="firstName" class="form-control"
+                    name="first_name">
+
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-md-6 mb-2">
+
+                <!--lastName-->
+                <div class="">
+                  <label for="lastName" class="">Last name</label>
+                  <input value="{{address.last_name}}" type="text" id="lastName" class="form-control" name="last_name">
+
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+
+
+            <!--address-->
+            <div class="mb-5">
+              <label for="address" class="">Address</label>
+              <input value="{{address.address}}" type="text" name="address" id="address" class="form-control"
+                placeholder="">
+
+            </div>
+            <!--Grid row-->
+            <div class="row">
+              <div class="col-lg-4 col-md-6 mb-4">
+
+                <label for="city">City</label>
+                <input value="{{address.city}}" type="text" name="city" class="form-control" id="city" placeholder=""
+                  required>
+                <div class="invalid-feedback">
+                  City code required.
+                </div>
+              </div>
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-12 mb-4">
+                <label for="states">State</label>
+                <select class="custom-select d-block w-100 form-control" id="states" name="state" required>
+                  <option value="">Choose...</option>
+                  <option>Andhra Pradesh</option>
+                  <option>Arunachal Pradesh</option>
+                  <option>Assam</option>
+                  <option>Bihar</option>
+                  <option>Chhattisgarh</option>
+                  <option>Delhi</option>
+                  <option>Goa</option>
+                  <option>Gujarat</option>
+                  <option>Haryana</option>
+                  <option>Himachal Pradesh</option>
+                  <option>Jammu and Kashmir</option>
+                  <option>Jharkhand</option>
+                  <option>Karnataka</option>
+                  <option>Kerala</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Maharashtra</option>
+                  <option>Manipur</option>
+                  <option>Meghalaya</option>
+                  <option>Mizoram</option>
+                  <option>Nagaland</option>
+                  <option>Orissa</option>
+                  <option>Punjab</option>
+                  <option>Rajasthan</option>
+                  <option>Sikkim</option>
+                  <option>Tamil Nadu</option>
+                  <option>Telangana</option>
+                  <option>Tripura</option>
+                  <option>Uttarakhand</option>
+                  <option>Uttar Pradesh</option>
+                  <option>West Bengal</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid state.
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+
+
+
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-6 mb-4">
+
+                <label for="zip">Zip</label>
+                <input value="{{address.zipcode}}" type="text" name="zipcode" class="form-control" id="zip"
+                  placeholder="" required>
+                <div class="invalid-feedback">
+                  Zip code required.
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+            </div>
+            <div class="row">
+              <!--Grid row-->
+              <div class="col-lg-3 mb-4">
+                <label for="phonenumber">Phone number</label>
+                <input value="{{address.phonenumber}}" type="tel" name="phonenumber" class="form-control"
+                  id="phonenumber" placeholder="" required>
+                <div class="invalid-feedback">
+                  Phone number required.
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-success btn-block text-uppercase" type="submit">Add address <i
+                class="fa fa-plus"></i></button>
+
+
+
+
+          </form>
+          {% elif address|length < 3 %} <div class="">
+            <a class="btn btn-success btn-block" data-toggle="collapse" href="#collapseExample" role="button"
+              aria-expanded="false" aria-controls="collapseExample">
+              ADD AN ADDRESS
+            </a>
+      </div>
+      <div class="collapse" id="collapseExample">
+        <div class="">
+          <form action="" method="POST" class="card-body">
+            {% csrf_token %}
+            <!--Grid row-->
+            <h4>Shipping Info:</h4>
+            <hr>
+            <div class="row">
+
+              <!--Grid column-->
+              <div class="col-md-6 mb-2">
+
+                <!--firstName-->
+                <div class=" ">
+                  <label for="firstName" class="">First name</label>
+                  <input value="{{address.first_name}}" type="text" id="firstName" class="form-control"
+                    name="first_name">
+
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-md-6 mb-2">
+
+                <!--lastName-->
+                <div class="">
+                  <label for="lastName" class="">Last name</label>
+                  <input value="{{address.last_name}}" type="text" id="lastName" class="form-control" name="last_name">
+
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+
+
+            <!--address-->
+            <div class="mb-5">
+              <label for="address" class="">Address</label>
+              <input value="{{address.address}}" type="text" name="address" id="address" class="form-control"
+                placeholder="">
+
+            </div>
+            <!--Grid row-->
+            <div class="row">
+              <div class="col-lg-4 col-md-6 mb-4">
+
+                <label for="city">City</label>
+                <input value="{{address.city}}" type="text" name="city" class="form-control" id="city" placeholder=""
+                  required>
+                <div class="invalid-feedback">
+                  City code required.
+                </div>
+              </div>
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-12 mb-4">
+                <label for="states">State</label>
+                <select class="custom-select d-block w-100 form-control" id="states" name="state" required>
+                  <option value="">Choose...</option>
+                  <option>Andhra Pradesh</option>
+                  <option>Arunachal Pradesh</option>
+                  <option>Assam</option>
+                  <option>Bihar</option>
+                  <option>Chhattisgarh</option>
+                  <option>Delhi</option>
+                  <option>Goa</option>
+                  <option>Gujarat</option>
+                  <option>Haryana</option>
+                  <option>Himachal Pradesh</option>
+                  <option>Jammu and Kashmir</option>
+                  <option>Jharkhand</option>
+                  <option>Karnataka</option>
+                  <option>Kerala</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Maharashtra</option>
+                  <option>Manipur</option>
+                  <option>Meghalaya</option>
+                  <option>Mizoram</option>
+                  <option>Nagaland</option>
+                  <option>Orissa</option>
+                  <option>Punjab</option>
+                  <option>Rajasthan</option>
+                  <option>Sikkim</option>
+                  <option>Tamil Nadu</option>
+                  <option>Telangana</option>
+                  <option>Tripura</option>
+                  <option>Uttarakhand</option>
+                  <option>Uttar Pradesh</option>
+                  <option>West Bengal</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid state.
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+
+
+
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-6 mb-4">
+
+                <label for="zip">Zip</label>
+                <input value="{{address.zipcode}}" type="text" name="zipcode" class="form-control" id="zip"
+                  placeholder="" required>
+                <div class="invalid-feedback">
+                  Zip code required.
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+            </div>
+            <div class="row">
+              <!--Grid row-->
+              <div class="col-lg-3 mb-4">
+                <label for="phonenumber">Phone number</label>
+                <input value="{{address.phonenumber}}" type="tel" name="phonenumber" class="form-control"
+                  id="phonenumber" placeholder="" required>
+                <div class="invalid-feedback">
+                  Phone number required.
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-success btn-block text-uppercase" type="submit">Add address <i
+                class="fa fa-plus"></i></button>
+
+
+
+
+          </form>
+        </div>
+      </div>
+
+
+      {% endif %}
+
+
+    </div>
+  </div>
+
+
+  <!--Grid column-->
+
+  <!--Grid column-->
+  <div class="col-md-4 mb-4">
+
+    <!-- Heading -->
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-muted">Your cart</span>
+      <span class="badge badge-secondary badge-pill" style="background-color: #a3004c;">{{order.get_cart_item}}</span>
+    </h4>
+
+    <!-- Cart -->
+    <ul class="list-group mb-3 z-depth-1">
+      {% for item in items %}
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <div>
+          <h6 class="my-0">{{item.product.name}}</h6>
+          <small class="text-muted">{{item.product.category}}</small>
+        </div>
+        <div>
+          <span class="text-muted">Rs {{item.product.price|floatformat:2}}</span>
+          <span class="text-muted">x {{item.quantity}}</span>
+        </div>
+      </li>
+      {% endfor %}
+
+      <li class="list-group-item d-flex justify-content-between pb-0 border-0">
+        <span>Tax (5% GST)</span>
+        <span>Rs {{tax}}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between ">
+        <span>Shipping</span>
+        <span>Free</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total</span>
+        <strong>Rs {{grandTotal}}</strong>
+      </li>
+    </ul>
+    <!-- Cart -->
+
+
+  </div>
+  <!--Grid column-->
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+  var update = document.getElementsByClassName('update');
+  var del = document.getElementsByClassName('delete');
+  for (var i = 0; i < update.length; i++) {
+    del[i].addEventListener('click', function (e) {
+      e.preventDefault()
+      var token = "{{csrf_token}}";
+      $.ajax({
+        headers: { "X-CSRFToken": token },
+        type: "POST",
+        url: "",
+        data: { 'id': this.dataset.id },
+        dataType: "json",
+        success: function (data) {
+          console.log(data.msg);
+          window.location.reload()
+        }
+
+      });
+
+    })
+  }
+
+  var shipping = '{{order.shipping}}'
+  var total = '{{grandTotal}}'
+
+
+  if (shipping == 'False') {
+    document.getElementById('shipping-info').innerHTML = " "
+  }
+
+  if (shipping == "False" && user != 'AnonymousUser') {
+    document.getElementById('form-wrapper').classList.add('hidden')
+    document.getElementById('payment-info').classList.remove('hidden')
+  }
+  if (total <= 0) {
+    document.getElementById('payment-info').classList.add('hidden')
+  }
+  var form = document.getElementById('form-button')
+
+
+  form.addEventListener('click', function (e) {
+    e.preventDefault()
+    console.log("Form Submitted...")
+
+    document.getElementById('form-button').classList.add('hidden')
+    document.getElementById('payment-info').classList.remove('hidden')
+  })
+  document.getElementById('make-payment').addEventListener('click', function (e) {
+    submitFormData()
+  })
+  function submitFormData() {
+    console.log("Payment Button Clicked")
+
+    // spin = document.getElementById("spinner");
+    // spin.classList.remove("hidden");
+    // var address = document.querySelector( 'input[name="groupOfDefaultRadios"]:checked');
+    // console.log(address['id']);
+
+    // var userFormData = {
+    //     'name' : null,
+    //     'email' : null,
+    //     'total' : total
+    // }
+    // var shippingInfo = {
+    //     'address' : null,
+    //     'city' : null,
+    //     'state' : null,
+    //     'zipcode' : null,
+    //     'phonenumber':null,
+    // }
+    // if(shipping != 'False'){
+    //     shippingInfo.address = form.address.value
+    //     shippingInfo.city = form.city.value
+    //     shippingInfo.state = form.state.value
+    //     shippingInfo.zipcode = form.zipcode.value
+    //     shippingInfo.phonenumber = form.phonenumber.value
+
+    // }
+    // if(user == 'AnonymousUser'){
+    //     userFormData.name = form.name.value
+    //     userFormData.email = form.email.value
+
+
+    // }
+
+    //var customurl = Math.floor((Math.random() * 10**15));
+    // var url ='/process_order/'
+    // fetch(url,{
+    //     method :'POST',
+    //     headers : {
+    //         'Content-Type' : 'application/json',
+    //         'X-CSRFToken':csrftoken
+    //     },
+    //     body: JSON.stringify({'total':total,'address_id':address['id'],'customurl': customurl})
+    // })
+    // .then((response)=>{ return response.json()})
+    // .then((data) =>{
+    //     spin.classList.add("hidden");
+    //     console.log('Success:',data);  
+    //     console.log('transaction completed')
+    //     window.location.replace('/success/'+ customurl)
+    //     var token = "{{csrf_token}}";
+    //     $.ajax({
+    //       headers:{"X-CSRFToken":token},
+    //       type: "POST",
+    //       url: "{% url 'success_handler' %}",
+    //       data: {'id':"{{order.id}}"},
+    //       dataType: "json",
+    //       success: function(data){
+    //         console.log(data.sent)
+    //       }
+
+    //     });
+
+
+    // } )
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+  // Get the modal
+
+  var modalparent = document.getElementsByClassName("modal_multi");
+
+  // Get the button that opens the modal
+
+  var modal_btn_multi = document.getElementsByClassName("myBtn_multi");
+
+  // Get the <span> element that closes the modal
+  var span_close_multi = document.getElementsByClassName("close_multi");
+
+  // When the user clicks the button, open the modal
+  function setDataIndex() {
+
+    for (i = 0; i < modal_btn_multi.length; i++) {
+      modal_btn_multi[i].setAttribute('data-index', i);
+      modalparent[i].setAttribute('data-index', i);
+      span_close_multi[i].setAttribute('data-index', i);
+    }
+  }
+
+
+
+  for (i = 0; i < modal_btn_multi.length; i++) {
+    modal_btn_multi[i].onclick = function () {
+      var ElementIndex = this.getAttribute('data-index');
+      modalparent[ElementIndex].style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span_close_multi[i].onclick = function () {
+      var ElementIndex = this.getAttribute('data-index');
+      modalparent[ElementIndex].style.display = "none";
+    };
+
+  }
+
+  window.onload = function () {
+
+    setDataIndex();
+  };
+
+  window.onclick = function (event) {
+    if (event.target === modalparent[event.target.getAttribute('data-index')]) {
+      modalparent[event.target.getAttribute('data-index')].style.display = "none";
+    }
+
+    // OLD CODE
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+
+
+  // Get the modal
+
+  var modal = document.getElementById('myModal');
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+</script>
+{% endblock content %}

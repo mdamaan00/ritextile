@@ -1,0 +1,122 @@
+[
+{
+    "model": "store.product",
+    "pk": 1,
+    "fields": {
+        "name": "Banarsi Saree",
+        "description": "This is a good saree",
+        "category": 1,
+        "material": 1,
+        "price": "1800.00",
+        "available": true,
+        "digital": false,
+        "dyeable": false,
+        "image": "Saree_KTmwzHD.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 2,
+    "fields": {
+        "name": "Cotton saree",
+        "description": "This is saree",
+        "category": 1,
+        "material": 2,
+        "price": "2000.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20200914-WA0026.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 3,
+    "fields": {
+        "name": "Saree 2.0",
+        "description": "This is saree",
+        "category": 1,
+        "material": 2,
+        "price": "3000.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20201001-WA0014.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 4,
+    "fields": {
+        "name": "Saree 3.0",
+        "description": "New Saree",
+        "category": 1,
+        "material": 1,
+        "price": "2500.00",
+        "available": true,
+        "digital": false,
+        "dyeable": false,
+        "image": "IMG-20200914-WA0021.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 5,
+    "fields": {
+        "name": "Saree 4",
+        "description": "asdasdasdasdadadfc",
+        "category": 1,
+        "material": 3,
+        "price": "490.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20200914-WA0022.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 6,
+    "fields": {
+        "name": "Saree 5",
+        "description": "New Saree",
+        "category": 1,
+        "material": 2,
+        "price": "2000.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20200914-WA0019.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 7,
+    "fields": {
+        "name": "Saree6",
+        "description": "This is a good saree",
+        "category": 1,
+        "material": 1,
+        "price": "2000.00",
+        "available": false,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20201002-WA0003.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 8,
+    "fields": {
+        "name": "Dupatta 1",
+        "description": "This is a nice dupatta",
+        "category": 2,
+        "material": 1,
+        "price": "500.00",
+        "available": true,
+        "digital": false,
+        "dyeable": false,
+        "image": "IMG-20201001-WA0015.jpg"
+    }
+}
+]

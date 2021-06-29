@@ -1,0 +1,309 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block homeactive %}active{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/slider.css' %}">
+<link rel="stylesheet" href="{% static 'css/prodcard.css' %}">
+<style>
+  .my-height {
+    max-height: 34rem;
+    min-height: 12rem;
+
+  }
+
+  .margin-top {
+    margin-top: 160px !important;
+  }
+
+  @media(max-width:991px) {
+    .margin-top {
+      margin-top: 250px !important;
+    }
+  }
+
+  @media(max-width:767px) {
+    .margin-top {
+      margin-top: 200px !important;
+    }
+  }
+
+  @media(max-width:575px) {
+    .margin-top {
+      margin-top: 120px !important;
+    }
+  }
+</style>
+
+{% for message in messages %}
+<div
+  class="alert alert-{% if messege.tags == error %}alert{% else %}{{messege.tags}}{% endif %} alert-dismissible fade show"
+  role="alert">
+  {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+<div class="margin-top">
+
+</div>
+
+<div id="carouselExampleCaptions" class="carousel slide carousel-fade mt-4 " data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'images/First.png' %}" class="d-block w-100 my-height" alt="...">
+
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/Second.png' %}" class="d-block w-100 my-height" alt="...">
+
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/Three.png' %}" class="d-block w-100 my-height" alt="...">
+
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+    <i class="fas fa-chevron-left"></i>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+      <i class="fas fa-chevron-right"></i>
+    </a>
+</div>
+
+<div class="container">
+
+
+
+  <!--Section: Block Content-->
+  <section>
+
+    <h4 class="text-center my-5 divider-new version-2"><strong>Categories</strong></h4>
+
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-6 col-lg-4 mb-4">
+
+        <!-- Card -->
+        <div class="">
+
+          <div class="view zoom brighten z-depth-2 rounded">
+            <img class="img-fluid" src="{% static 'images/navbharat-times.jpg' %}" alt="Sample">
+            <a href="products/?category=1" class="text-white">
+              <div class="mask card-mask-color">
+                <div class="d-flex align-items-end h-100 p-3">
+                  <h5 class="mb-0 text-white"><strong>Sarees</strong></h5>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+        <!-- Card -->
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-6 col-lg-4 mb-4">
+
+        <!-- Card -->
+        <div class="">
+
+          <div class="view zoom brighten z-depth-2 rounded">
+            <img class="img-fluid" src="{% static 'images/dupatta.jpg' %}" alt="Sample">
+            <a href="products/?category=2" class="text-white">
+              <div class="mask card-mask-color">
+                <div class="d-flex align-items-end h-100 p-3">
+                  <h5 class="mb-0 text-white "><strong>Dupatta</strong></h5>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+        <!-- Card -->
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-6 col-lg-4 mb-4">
+
+        <!-- Card -->
+        <div class="">
+
+          <div class="view zoom brighten z-depth-2 rounded">
+            <img class="img-fluid" src="{% static 'images/suit.jpg' %}" alt="Sample">
+            <a href="products/?category=3" class="text-white">
+              <div class="mask card-mask-color">
+                <div class="d-flex align-items-end h-100 p-3">
+                  <h5 class="mb-0 text-white"><strong>Suits</strong></h5>
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+        <!-- Card -->
+
+      </div>
+      <!-- Grid column -->
+
+
+
+    </div>
+    <!-- Grid row -->
+
+  </section>
+  <!--Section: Block Content-->
+
+
+  <!--Section: Block Content-->
+  <section>
+
+    <h4 class="text-center mt-4 mb-5 divider-new "><strong>Latest Products</strong></h4>
+
+    <!-- Grid row -->
+    <div class="row mx-auto">
+      {% for product in products %}
+      {% if forloop.counter <= 3 %} <!-- Grid column -->
+        <div class="col-md-4 mb-5 my-card">
+
+          <!-- Card -->
+          <div class="">
+
+            <div class="view zoom overlay rounded z-depth-2">
+              <img class="img-fluid w-100" src="{{product.imageURL}}" alt="Sample">
+              <a href="{% url 'products' %}{{product.id}}">
+                <div class="mask">
+                  <img class="img-fluid w-100" src="{{product.imageURL}}">
+                  <div class="mask rgba-black-slight"></div>
+                </div>
+              </a>
+            </div>
+
+            <div class="text-center pt-4">
+
+              <h5>{{product.name}}</h5>
+              <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
+
+            </div>
+
+          </div>
+          <!-- Card -->
+
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+    <!-- Grid row -->
+
+  </section>
+  <!--Section: Block Content-->
+
+
+
+
+
+  <section>
+
+    <h4 class="text-center mt-4 mb-5 divider-new version-2"><strong>Shop By Categories</strong></h4>
+
+    <!-- Grid row -->
+    <h5 class="text-center mt-4 mb-5 divider-new version-2"><strong>Sarees</strong></h5>
+    <div class="row mx-auto">
+
+      {% for product in productsSaree %}
+      {% if forloop.counter <= 3 %} <!-- Grid column -->
+        <div class="col-md-4 mb-5 my-card">
+
+          <!-- Card -->
+          <div class="">
+
+            <div class="view zoom overlay rounded z-depth-2">
+              <img class="img-fluid w-100" src="{{product.imageURL}}" alt="Sample">
+              <a href="{% url 'products' %}{{product.id}}">
+                <div class="mask">
+                  <img class="img-fluid w-100" src="{{product.imageURL}}">
+                  <div class="mask rgba-black-slight"></div>
+                </div>
+              </a>
+            </div>
+
+            <div class="text-center pt-4">
+
+              <h5>{{product.name}}</h5>
+              <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
+
+            </div>
+
+          </div>
+          <!-- Card -->
+
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+    <!-- Grid row -->
+
+
+
+
+    <h5 class="text-center mt-4 mb-5 divider-new version-2"><strong>Dupatta</strong></h5>
+    <div class="row mx-auto">
+
+      {% for product in productsDupatta %}
+      {% if forloop.counter <= 3 %} <!-- Grid column -->
+        <div class="col-md-4 mb-5 my-card">
+
+          <!-- Card -->
+          <div class="">
+
+            <div class="view zoom overlay rounded z-depth-2">
+              <img class="img-fluid w-100" src="{{product.imageURL}}" alt="Sample">
+              <a href="{% url 'products' %}{{product.id}}">
+                <div class="mask">
+                  <img class="img-fluid w-100" src="{{product.imageURL}}">
+                  <div class="mask rgba-black-slight"></div>
+                </div>
+              </a>
+            </div>
+
+            <div class="text-center pt-4">
+
+              <h5>{{product.name}}</h5>
+              <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
+
+            </div>
+
+          </div>
+          <!-- Card -->
+
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+    <!-- Grid row -->
+
+  </section>
+  <!--Section: Block Content-->
+
+</div>
+
+
+
+<script>
+
+</script>
+{% endblock content %}

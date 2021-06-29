@@ -1,0 +1,406 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+  /* The Modal (background) */
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 250px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+  }
+
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  @media (max-width:575px) {
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+  }
+
+  .close_multi {
+    color: white;
+  }
+
+
+  .chg-quantity {
+    width: 12px;
+    cursor: pointer;
+
+    transition: .1s;
+  }
+
+  .chg-quantity:hover {
+    opacity: .6;
+  }
+
+
+  @media (max-width:1199px) {
+    .cart-img {
+      width: 50px;
+    }
+
+    h1,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: medium
+    }
+  }
+</style>
+<div class="container margin-top">
+  {% if order.get_cart_item %}
+  <section class="mb-4">
+
+    <!--Grid row-->
+    <div class="row">
+
+      <!--Grid column-->
+      <div class="col-lg-8">
+
+        <!-- Card -->
+        <div class="box-element wish-list mb-4">
+          <div class="card-body" id="main-card">
+
+            <h5 class="mb-4">Cart (<span id="cart-items">{{order.get_cart_item}}</span> items)</h5>
+            {% for item in items %}
+
+            <div class="row mb-4 prod-row" style="padding: 10px 10px 10px 10px;">
+
+              <div class="col-md-5 col-lg-3 col-xl-3">
+                <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0"
+                  style="max-height: 12rem; max-width: 10rem;">
+                  <img class="img-fluid w-100" src="{{item.product.imageURL}}" alt="Sample">
+                  <a href="{% url 'products' %}{{item.product.id}}">
+                    <div class="mask waves-effect waves-light">
+                      <img class="img-fluid w-100" src="{{item.product.imageURL}}">
+                      <div class="mask rgba-black-slight waves-effect waves-light"></div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-7 col-lg-9 col-xl-9">
+                <div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <h5>{{item.product.name}}</h5>
+                      <p class="mb-3 text-muted text-uppercase small">{{item.product.category}}</p>
+                      <p class="mb-3 text-muted text-uppercase small">Rs {{item.product.price}}</p>
+                    </div>
+                    <div>
+
+                      <div class="def-number-input number-input safari_only mb-0 w-100">
+                        <div style="display: block;">
+                          <img data-product={{item.product.id}} data-action="add" data-quantity={{item.quantity}}
+                            class="chg-quantity prod-btn" src="{% static  'images/arrow-up.png' %}">
+
+                          <p class="item-quantity" data-product={{item.product.id}} style="margin-bottom: 0;">
+                            {{item.quantity}}</p>
+                          <img data-product={{item.product.id}} data-action="remove" data-quantity={{item.quantity}}
+                            class="chg-quantity prod-btn " src="{% static  'images/arrow-down.png' %}">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <a type="button" class="myBtn_multi card-link small text-uppercase mr-3 " style="color: black;"><i
+                          class="fas fa-trash-alt mr-1"></i> Remove item </a>
+
+                      <div class="modal modal_multi">
+
+                        <!-- Modal content -->
+                        <div style="text-align: center;" class="modal-content">
+
+                          <p>Are you sure you want to remove this item?</p>
+                          <span>
+                            <button data-product={{item.product.id}} data-action="delete" href="" type="button"
+                              class="prod-btn btn-success btn">Remove</button>
+                            <a style="color:#fefefe;" type="button" class="btn-success btn close_multi">No</a>
+                          </span>
+                        </div>
+
+                      </div>
+                    </div>
+                    <p class="mb-0"><span>Rs <strong class="item-total">{{item.get_total|floatformat:2}}</strong></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-4 prod-row loading hidden " data-product={{item.product.id}}
+                style="position: absolute;background-color: rgba(53, 52, 52, 0.459);height: 100%;width:100%;margin-top: -10px;margin-left: -10px; border-radius: 8px; align-items: center;justify-content: center;">
+                <div class="spinner-border" style="color: #a3004c; width: 20px; height: 20px;" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+
+            <hr class="mb-4">
+            {% endfor %}
+            <p class="alert alert-info mb-0"><i class="fas fa-info-circle mr-1"></i> Do not delay the purchase, adding
+              items to your cart does not mean booking them.</p>
+
+          </div>
+        </div>
+        <!-- Card -->
+
+
+
+
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-lg-4">
+
+        <!-- Card -->
+        <div class="box-element mb-4">
+          <div class="card-body">
+
+            <h5 class="mb-3">The total amount of</h5>
+
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                Temp amount
+                <span>Rs <span class="grand-total">{{order.get_cart_total|floatformat:2}}</span></span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0 border-0">
+                Taxes (5% GST)
+                <span>Rs <span class="tax">{{tax|floatformat:2}}</span></span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                Shipping
+                <span>Free</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>Total</strong>
+
+                </div>
+                <span><strong>Rs <span class="grand-total">{{grandTotal|floatformat:2}}</span></strong></span>
+              </li>
+            </ul>
+
+            <a id="checkout" style="margin:5px; color: aliceblue; display: block;"
+              class="btn btn-success text-uppercase" href="{% url 'checkout' %}">Checkout</a>
+          </div>
+        </div>
+        <!-- Card -->
+      </div>
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
+  </section>
+  {% else %}
+  <div style="text-align: center; padding-top: 20%; padding-bottom: 20%;">
+    <h1 class="mb-4">Looks like your <img class="cart-img" style="max-width: 5rem;"
+        src="{% static 'images/cart.png' %}"> is empty</h1>
+    <a class=" my-btn" href="{% url 'home' %}">« Continue Shopping</a>
+  </div>
+  {% endif %}
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+  var update = document.getElementsByClassName('prod-btn');
+  var total = document.getElementsByClassName('item-total');
+  var row = document.getElementsByClassName('prod-row');
+  var grandTotal = document.getElementsByClassName("grand-total");
+  var tax = document.getElementsByClassName("tax");
+  const v = document.getElementById("total-items");
+  const all_items = document.getElementById("cart-items");
+  const quan = document.getElementsByClassName("item-quantity");
+  const loading = document.getElementsByClassName("loading");
+  for (var i = 0; i < update.length; i++) {
+    update[i].addEventListener('click', function (e) {
+      e.preventDefault()
+      var productId = this.dataset.product;
+      var action = this.dataset.action;
+      console.log('productId:', productId)
+      console.log('action:', action)
+      console.log('USER:', user)
+      if (user === "AnonymousUser") {
+        console.log('Not logged in')
+      }
+      else {
+        
+        updateOrder(productId, action)
+      }
+      //AJAX
+      function updateOrder(productId, action) {
+        token = "{{csrf_token}}";
+        const mainCard = document.getElementById("main-card");
+        for (var i = 0; i < loading.length; i++) {
+          if (loading[i].dataset.product == productId) {
+            loading[i].classList.remove("hidden");
+          }
+        }
+        mainCard.classList.add('disabled');
+        $.ajax({
+          headers: { "X-CSRFToken": token },
+          type: "POST",
+          url: "{% url 'add_multiple_prod' %}",
+          data: { 'productId': productId, 'action': action },
+          dataType: "json",
+          success: function (data) {
+            console.log(data.msg);
+            console.log(data.quantity);
+            if (action === "delete") {
+              location.reload();
+            }
+            for (var i = 0; i < quan.length; i++) {
+              if (quan[i].dataset.product == productId && data.quantity > 0) {
+                for (var j = 0; j < loading.length; j++) {
+                  if (loading[j].dataset.product == productId) {
+                    loading[i].classList.add("hidden");
+                  }
+                }
+                mainCard.classList.remove('disabled');
+                quan[i].innerHTML = data.quantity;
+                total[i].innerHTML = data.total;
+                v.innerHTML = data.items;
+                all_items.innerHTML = data.items;
+                grandTotal[0].innerHTML = data.orderTotal;
+                grandTotal[1].innerHTML = data.grandTotal;
+                tax[0].innerHTML = data.tax;
+              }
+              else if (data.quantity <= 0) {
+                location.reload();
+              }
+            }
+          }
+        })
+      }
+    })
+  }
+
+
+</script>
+
+<script>
+  // Get the modal
+
+  var modalparent = document.getElementsByClassName("modal_multi");
+
+  // Get the button that opens the modal
+
+  var modal_btn_multi = document.getElementsByClassName("myBtn_multi");
+
+  // Get the <span> element that closes the modal
+  var span_close_multi = document.getElementsByClassName("close_multi");
+
+  // When the user clicks the button, open the modal
+  function setDataIndex() {
+
+    for (i = 0; i < modal_btn_multi.length; i++) {
+      modal_btn_multi[i].setAttribute('data-index', i);
+      modalparent[i].setAttribute('data-index', i);
+      span_close_multi[i].setAttribute('data-index', i);
+    }
+  }
+
+
+
+  for (i = 0; i < modal_btn_multi.length; i++) {
+    modal_btn_multi[i].onclick = function () {
+      var ElementIndex = this.getAttribute('data-index');
+      modalparent[ElementIndex].style.display = "block";
+    };
+    // When the user clicks on <span> (x), close the modal
+    span_close_multi[i].onclick = function () {
+      var ElementIndex = this.getAttribute('data-index');
+      modalparent[ElementIndex].style.display = "none";
+    };
+  }
+
+  window.onload = function () {
+    setDataIndex();
+  };
+
+  window.onclick = function (event) {
+    if (event.target === modalparent[event.target.getAttribute('data-index')]) {
+      modalparent[event.target.getAttribute('data-index')].style.display = "none";
+    }
+
+    // OLD CODE
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  //XXXXXXXXXXXXXXXXXXXXXXX    Modified old code    XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+  // Get the modal
+
+  var modal = document.getElementById('myModal');
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+  // var span = modal.getElementsByClassName("close")[0]; // Modified by dsones uk
+
+// When the user clicks on the button, open the modal
+
+//   btn.onclick = function() {
+
+//       modal.style.display = "block";
+//   }
+
+// // When the user clicks on <span> (x), close the modal
+//   span.onclick = function() {
+//       modal.style.display = "none";
+//   }
+
+
+
+</script>
+
+{% endblock content %}

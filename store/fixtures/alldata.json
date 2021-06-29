@@ -1,0 +1,216 @@
+[
+{
+    "model": "store.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$YfEbWxkXx50h$u8rqxYF4npqjcqOsuY2gZoKHyUMj/E3p9c6xXRxka6s=",
+        "last_login": "2021-03-21T11:26:07.555Z",
+        "email": "mdamaan00@gmail.com",
+        "first_name": "Mohammad",
+        "last_name": "Amaan",
+        "date_joined": "2021-03-20T13:54:20Z",
+        "is_admin": true,
+        "is_staff": true,
+        "is_active": true
+    }
+},
+{
+    "model": "store.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$t3wNGmScZvIp$L00NX7pvqbSewFLnUseQIxcky/ZqGDC9UCM5GGoFESA=",
+        "last_login": "2021-03-20T13:56:04.028Z",
+        "email": "yourfriendhit@gmail.com",
+        "first_name": "Mohammad",
+        "last_name": "Amaan",
+        "date_joined": "2021-03-20T13:56:03.874Z",
+        "is_admin": false,
+        "is_staff": false,
+        "is_active": true
+    }
+},
+{
+    "model": "store.categories",
+    "pk": 1,
+    "fields": {
+        "category": "Sarees"
+    }
+},
+{
+    "model": "store.categories",
+    "pk": 2,
+    "fields": {
+        "category": "Dupatta"
+    }
+},
+{
+    "model": "store.categories",
+    "pk": 3,
+    "fields": {
+        "category": "Suits"
+    }
+},
+{
+    "model": "store.material",
+    "pk": 1,
+    "fields": {
+        "material": "Cotton"
+    }
+},
+{
+    "model": "store.material",
+    "pk": 2,
+    "fields": {
+        "material": "Silk"
+    }
+},
+{
+    "model": "store.material",
+    "pk": 3,
+    "fields": {
+        "material": "Shiffon"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 1,
+    "fields": {
+        "name": "Banarsi Saree",
+        "description": "This is a good saree",
+        "category": 1,
+        "material": 1,
+        "price": "1800.00",
+        "available": true,
+        "digital": false,
+        "dyeable": false,
+        "image": "Saree_KTmwzHD.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 2,
+    "fields": {
+        "name": "Cotton saree",
+        "description": "This is saree",
+        "category": 1,
+        "material": 2,
+        "price": "2000.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20200914-WA0026.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 3,
+    "fields": {
+        "name": "Saree 2.0",
+        "description": "This is saree",
+        "category": 1,
+        "material": 2,
+        "price": "3000.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20201001-WA0014.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 4,
+    "fields": {
+        "name": "Saree 3.0",
+        "description": "New Saree",
+        "category": 1,
+        "material": 1,
+        "price": "2500.00",
+        "available": true,
+        "digital": false,
+        "dyeable": false,
+        "image": "IMG-20200914-WA0021.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 5,
+    "fields": {
+        "name": "Saree 4",
+        "description": "asdasdasdasdadadfc",
+        "category": 1,
+        "material": 3,
+        "price": "490.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20200914-WA0022.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 6,
+    "fields": {
+        "name": "Saree 5",
+        "description": "New Saree",
+        "category": 1,
+        "material": 2,
+        "price": "2000.00",
+        "available": true,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20200914-WA0019.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 7,
+    "fields": {
+        "name": "Saree6",
+        "description": "This is a good saree",
+        "category": 1,
+        "material": 1,
+        "price": "2000.00",
+        "available": false,
+        "digital": false,
+        "dyeable": true,
+        "image": "IMG-20201002-WA0003.jpg"
+    }
+},
+{
+    "model": "store.product",
+    "pk": 8,
+    "fields": {
+        "name": "Dupatta 1",
+        "description": "This is a nice dupatta",
+        "category": 2,
+        "material": 1,
+        "price": "500.00",
+        "available": true,
+        "digital": false,
+        "dyeable": false,
+        "image": "IMG-20201001-WA0015.jpg"
+    }
+},
+{
+    "model": "store.order",
+    "pk": 1,
+    "fields": {
+        "customer": 1,
+        "date_orderd": "2021-03-20T13:55:27.346Z",
+        "status": null,
+        "complete": false,
+        "transaction_id": null
+    }
+},
+{
+    "model": "store.order",
+    "pk": 2,
+    "fields": {
+        "customer": 2,
+        "date_orderd": "2021-03-20T13:56:04.050Z",
+        "status": null,
+        "complete": false,
+        "transaction_id": null
+    }
+}
+]
