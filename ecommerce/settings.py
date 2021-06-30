@@ -25,7 +25,7 @@ SECRET_KEY = 'Ysjjpz0zu2y4kj-&6(6si0u6lti@olzol(b*vy1dbbmj$pqb55&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['ritextiles-test-2.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','ritextiles-test-2.herokuapp.com']
 
 
 # Application definition
@@ -48,13 +48,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -130,10 +131,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+if DEBUG:
+    STATICFILES_DIRS =[os.path.join(BASE_DIR,'static')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
+
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS =[os.path.join(BASE_DIR,'static')]
+
 
 MEDIA_URL = '/images/'
 
