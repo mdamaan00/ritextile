@@ -186,8 +186,10 @@ def processOrder(request):
              'INDUSTRY_TYPE_ID':'Retail',
              'WEBSITE':'WEBSTAGING',
              'CHANNEL_ID':'WEB',
-             'CALLBACK_URL':'http://ritextiles-test-2.herokuapp.com/handlerequest/',
+             'CALLBACK_URL':'http://127.0.0.1:8000/handlerequest/',
+                
             }
+            #http://ritextiles-test-2.herokuapp.com/
             params['CHECKSUMHASH'] = checksum.generate_checksum(param_dict=params,merchant_key= "ke3Q@9&y8857%kZ&")
             request.session['params'] = json.dumps(params)
             return redirect('paytm')
