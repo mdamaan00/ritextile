@@ -49,7 +49,7 @@ def cart(request):
         items = []
         order = {'get_cart_total':0,'get_cart_item':0,'shipping': False}
         cartItems = order['get_cart_item']
-        
+
     categories = Categories.objects.all()
     total = order.get_cart_total
     tax = (5*total)/100
@@ -69,7 +69,7 @@ def checkout(request):
         cartItems = order['get_cart_item']
     if not cartItems:
         return redirect('cart')
-    
+
     if request.is_ajax():
         address = ShippingAddress.objects.get(id=request.POST.get("id"),customer=customer)
         address.delete()
@@ -108,8 +108,8 @@ def checkout(request):
             mainaddressmodel=mainaddress
         )
         return redirect(request.path)
-    categories = Categories.objects.all() 
-    address = ShippingAddress.objects.filter(customer=customer)   
+    categories = Categories.objects.all()
+    address = ShippingAddress.objects.filter(customer=customer)
     total = order.get_cart_total
     tax = (5*total)/100
     grandTotal = tax + total
@@ -124,7 +124,7 @@ def updateItem(request):
     print('Action:',action)
     print('ProductId:',productId)
     product = Product.objects.get(id=productId)
-    customer = request.user  
+    customer = request.user
     order, created = Order.objects.get_or_create(customer=customer , complete=False)
     orderItem, created = OrderItem.objects.get_or_create(customer=customer,order=order,product=product)
     if action == "add":
@@ -134,7 +134,7 @@ def updateItem(request):
     orderItem.save()
     if orderItem.quantity<=0 or action=="delete":
         orderItem.delete()
-        
+
     return JsonResponse('Item was added', safe=False)
 
 def processOrder(request):
@@ -186,8 +186,8 @@ def processOrder(request):
              'INDUSTRY_TYPE_ID':'Retail',
              'WEBSITE':'WEBSTAGING',
              'CHANNEL_ID':'WEB',
-             'CALLBACK_URL':'http://127.0.0.1:8000/handlerequest/',
-                
+             'CALLBACK_URL':'http://mdamaan00.pythonanywhere.com/handlerequest/',
+
             }
             #http://ritextiles-test-2.herokuapp.com/
             params['CHECKSUMHASH'] = checksum.generate_checksum(param_dict=params,merchant_key= "ke3Q@9&y8857%kZ&")
@@ -199,7 +199,7 @@ def processOrder(request):
         return HttpResponse("ERROR")
 
     return JsonResponse('Payment Complete!', safe=False)
-    
+
 
 def paytm(request):
     params = request.session['params']
@@ -309,7 +309,7 @@ def products(request):
 
     myfilter = ItemFilter(request.GET,queryset= products)
     products = Paginator(myfilter.qs,6)
-    
+
     page_number = request.GET.get("page")
     products_page_obj = products.get_page(page_number)
     context = {'products':products,'cartItems':cartItems,'materials':materials,
@@ -329,7 +329,7 @@ def profile(request):
         items = []
         order = {'get_cart_total':0,'get_cart_item':0,'shipping': False}
         cartItems = order['get_cart_item']
-    
+
     categories = Categories.objects.all()
     context = {'items':items, 'cartItems':cartItems,'categories':categories,'orders':orders,'customer':customer}
 
@@ -360,7 +360,7 @@ def productsView(request,myid):
             orderItem,created = OrderItem.objects.get_or_create(customer=customer,order=order,product=product)
             if quantity>=1 and (quantity<=(5-orderItem.quantity) and quantity<=orderItem.product.stock-orderItem.quantity):
                 orderItem.quantity+=quantity
-                orderItem.save()   
+                orderItem.save()
                 allItems = order.get_cart_item
                 return JsonResponse({"item":allItems,'quantity':quantity})
             elif quantity>orderItem.product.stock-orderItem.quantity:
@@ -432,11 +432,11 @@ def success_handler(request):
         except:
             return JsonResponse({'sent':"messege sent"})
     else:
-         return HttpResponse('error')   
+         return HttpResponse('error')
     # elif order.complete==True and order.emailconfirm==True:
     #     return render(request,'store/success.html',context)
-    
-        
+
+
 def success(request,myid):
     try:
         order=Order.objects.get(id=myid)
@@ -508,7 +508,7 @@ def addmultipleProd(request):
         print('Action:',action)
         print('ProductId:',productId)
         product = Product.objects.get(id=productId)
-        customer = request.user  
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer , complete=False)
         orderItem, created = OrderItem.objects.get_or_create(customer=customer,order=order,product=product)
         if action == "add" and (orderItem.quantity<5 and orderItem.quantity<orderItem.product.stock) :
@@ -592,7 +592,7 @@ def update_address(request,myid):
             mainaddressmodel=address
         )
         return redirect('checkout')
-    
+
     categories = Categories.objects.all()
     context = {'items':items, 'cartItems':cartItems,'categories':categories,'customer':customer,'address':address}
 
@@ -631,7 +631,7 @@ def handlerequest(request):
                         prod.stock -= item.quantity
                         if prod.stock<=0:
                             prod.available = False
-                        prod.save()  
+                        prod.save()
                     context = {'customer':customer,'order':order,'items':items}
                     emaildata = {'name':customer.first_name,'customer':customer,'order':order,'items':items}
                     try:
@@ -657,7 +657,7 @@ def handlerequest(request):
                     new_order.save()
                     order.delete()
                     messages.error(request,response_dict['RESPMSG'])
-                    return redirect('checkout') 
+                    return redirect('checkout')
             else:
                 items = order.orderitem_set.all()
                 new_order, created = Order.objects.get_or_create(customer=customer, complete=False,transaction_id=datetime.datetime.now().timestamp())
@@ -674,7 +674,7 @@ def handlerequest(request):
             #     address = AllAddresses.objects.get(mainaddressmodel=shippingaddress)
             #     order.address = address
             #     order.date_orderd = datetime.date.today()
-            # order.save()   
+            # order.save()
         except:
             return HttpResponse('ERROR1')
     else:
