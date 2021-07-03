@@ -462,7 +462,7 @@
             z-index: 1
         }
 
-        .header.scrolled .header_main {
+        .header.scrolled.header_main {
             display: none
         }
 
@@ -485,14 +485,15 @@
             -moz-transform: translateY(-50%);
             -ms-transform: translateY(-50%);
             -o-transform: translateY(-50%);
-            transform: translateY(-50%)
+            transform: translateY(-50%);
+
         }
 
-        .logo a {
+        /* .logo img {
             font-size: 36px;
             font-weight: 500;
-            color: #a3004c
-        }
+
+        } */
 
         .logo :hover {
             font-size: 36px;
@@ -1531,7 +1532,7 @@
                     <!-- Logo -->
                     <div class="col-lg-2 col-sm-3 col-3 order-1">
                         <div class="logo_container">
-                            <div class="logo"><a href="{% url 'home' %}">R.I Textiles</a></div>
+                            <div class="logo"><a href="{% url 'home' %}"><img src="{% static 'images/RI.jpg' %}" alt="" width="200" height="100"></a></div>
                         </div>
                     </div> <!-- Search -->
                     <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
