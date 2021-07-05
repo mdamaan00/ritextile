@@ -6,6 +6,17 @@
     <title>R.I Textiles</title>
     <link rel="icon" type="image/png" href="{% static 'images/favicon.jpg' %}">
     <style>
+        ::-moz-selection {
+            color: white;
+            background: #a3004c;
+        }
+
+        ::selection {
+
+            color: white;
+            background: #a3004c;
+        }
+
         .modal-backdrop {
             /* bug fix - no overlay */
             display: none;
@@ -1532,7 +1543,8 @@
                     <!-- Logo -->
                     <div class="col-lg-2 col-sm-3 col-3 order-1">
                         <div class="logo_container">
-                            <div class="logo"><a href="{% url 'home' %}"><img src="{% static 'images/RI.jpg' %}" alt="" width="200" height="100"></a></div>
+                            <div class="logo"><a href="{% url 'home' %}"><img src="{% static 'images/RI.jpg' %}" alt=""
+                                        width="200" height="100"></a></div>
                         </div>
                     </div> <!-- Search -->
                     <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
@@ -1557,7 +1569,8 @@
                                 <div class="cart">
                                     <div class="cart_container d-flex flex-row align-items-center justify-content-end">
                                         <div class="cart_icon"> <i class="fas fa-shopping-cart"></i>
-                                            <div class="cart_count"><span id="total-items"><strong>{{cartItems}}</strong></span></div>
+                                            <div class="cart_count"><span
+                                                    id="total-items"><strong>{{cartItems}}</strong></span></div>
                                         </div>
                                         <div class="cart_content">
 
