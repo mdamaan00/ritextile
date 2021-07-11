@@ -4,6 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/slider.css' %}">
 <link rel="stylesheet" href="{% static 'css/prodcard.css' %}">
+<link rel="stylesheet" href="{% static 'css/prodslider.css' %}">
 <style>
   .my-height {
     max-height: 34rem;
@@ -173,40 +174,54 @@
 
     <!-- Grid row -->
     <div class="row mx-auto">
-      {% for product in products %}
-      {% if forloop.counter <= 3 %} <!-- Grid column -->
-        <div class="col-md-4 mb-5 my-card">
-
-          <!-- Card -->
-          <div class="">
-
-            <div class="view zoom overlay rounded z-depth-2">
-              <img class="img-fluid w-100" src="{{product.imageURL}}" alt="Sample">
-              <a href="{% url 'products' %}{{product.id}}">
-                <div class="mask">
-                  <img class="img-fluid w-100" src="{{product.imageURL}}">
-                  <div class="mask rgba-black-slight"></div>
-                </div>
-              </a>
-            </div>
-
-            <div class="text-center pt-4">
-
-              <h5>{{product.name}}</h5>
-              <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
-
-            </div>
-
+      <div class="container" style="display: inline-flex;">
+      
+        <div id="slide-left-container" style="margin-top: 165px;">
+          <div class="slide-left">
           </div>
-          <!-- Card -->
-
-          <!--
-            comment
-          -->
-
         </div>
-        {% endif %}
-        {% endfor %}
+        <div id="cards-container">
+          <div class="cards">
+            {% for product in products %}
+        
+        
+          <div class="col-md-4 mb-5 my-card this-card">
+            <div class="">
+              <div class="view zoom overlay rounded z-depth-2">
+                <img class="img-fluid w-100 img" src="{{product.imageURL}}" alt="Sample">
+                <a href="{% url 'products' %}{{product.id}}">
+                  <div class="mask">
+                    <img class="img-fluid w-100 img" src="{{product.imageURL}}">
+                    <div class="mask rgba-black-slight"></div>
+                  </div>
+                </a>
+              </div>
+  
+              <div class="text-center pt-4">
+  
+                <h5>{{product.name}}</h5>
+                <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
+  
+              </div>
+  
+            </div>
+            <!-- Card -->
+  
+          
+        </div>
+          
+          {% endfor %}
+           
+          </div>
+        </div>
+        
+        <div id="slide-right-container" style="margin-top: 165px;">
+          <div class="slide-right">
+           
+          </div>
+        </div>
+    
+      </div>
 
     </div>
     <!-- Grid row -->
@@ -226,36 +241,54 @@
     <h5 class="text-center mt-4 mb-5 divider-new version-2"><strong>Sarees</strong></h5>
     <div class="row mx-auto">
 
-      {% for product in productsSaree %}
-      {% if forloop.counter <= 3 %} <!-- Grid column -->
-        <div class="col-md-4 mb-5 my-card">
-
-          <!-- Card -->
-          <div class="">
-
-            <div class="view zoom overlay rounded z-depth-2">
-              <img class="img-fluid w-100" src="{{product.imageURL}}" alt="Sample">
-              <a href="{% url 'products' %}{{product.id}}">
-                <div class="mask">
-                  <img class="img-fluid w-100" src="{{product.imageURL}}">
-                  <div class="mask rgba-black-slight"></div>
-                </div>
-              </a>
-            </div>
-
-            <div class="text-center pt-4">
-
-              <h5>{{product.name}}</h5>
-              <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
-
-            </div>
-
+      <div class="container" style="display: inline-flex;">
+      
+        <div id="slide-left-container-1" style="margin-top: 165px;">
+          <div class="slide-left">
           </div>
-          <!-- Card -->
-
         </div>
-        {% endif %}
-        {% endfor %}
+        <div id="cards-container-1">
+          <div class="cards">
+            {% for product in productsSaree %}
+        
+        
+          <div class="col-md-4 mb-5 my-card this-card">
+            <div class="">
+              <div class="view zoom overlay rounded z-depth-2">
+                <img class="img-fluid w-100 img" src="{{product.imageURL}}" alt="Sample">
+                <a href="{% url 'products' %}{{product.id}}">
+                  <div class="mask">
+                    <img class="img-fluid w-100 img" src="{{product.imageURL}}">
+                    <div class="mask rgba-black-slight"></div>
+                  </div>
+                </a>
+              </div>
+  
+              <div class="text-center pt-4">
+  
+                <h5>{{product.name}}</h5>
+                <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
+  
+              </div>
+  
+            </div>
+            <!-- Card -->
+  
+          
+        </div>
+          
+          {% endfor %}
+           
+          </div>
+        </div>
+        
+        <div id="slide-right-container-1" style="margin-top: 165px;">
+          <div class="slide-right">
+           
+          </div>
+        </div>
+    
+      </div>
 
     </div>
     <!-- Grid row -->
@@ -266,36 +299,54 @@
     <h5 class="text-center mt-4 mb-5 divider-new version-2"><strong>Dupatta</strong></h5>
     <div class="row mx-auto">
 
-      {% for product in productsDupatta %}
-      {% if forloop.counter <= 3 %} <!-- Grid column -->
-        <div class="col-md-4 mb-5 my-card">
-
-          <!-- Card -->
-          <div class="">
-
-            <div class="view zoom overlay rounded z-depth-2">
-              <img class="img-fluid w-100" src="{{product.imageURL}}" alt="Sample">
-              <a href="{% url 'products' %}{{product.id}}">
-                <div class="mask">
-                  <img class="img-fluid w-100" src="{{product.imageURL}}">
-                  <div class="mask rgba-black-slight"></div>
-                </div>
-              </a>
-            </div>
-
-            <div class="text-center pt-4">
-
-              <h5>{{product.name}}</h5>
-              <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
-
-            </div>
-
+      <div class="container" style="display: inline-flex;">
+      
+        <div id="slide-left-container-2" style="margin-top: 165px;">
+          <div class="slide-left">
           </div>
-          <!-- Card -->
-
         </div>
-        {% endif %}
-        {% endfor %}
+        <div id="cards-container-2">
+          <div class="cards">
+            {% for product in productsDupatta %}
+        
+        
+          <div class="col-md-4 mb-5 my-card this-card">
+            <div class="">
+              <div class="view zoom overlay rounded z-depth-2">
+                <img class="img-fluid w-100 img" src="{{product.imageURL}}" alt="Sample">
+                <a href="{% url 'products' %}{{product.id}}">
+                  <div class="mask">
+                    <img class="img-fluid w-100 img" src="{{product.imageURL}}">
+                    <div class="mask rgba-black-slight"></div>
+                  </div>
+                </a>
+              </div>
+  
+              <div class="text-center pt-4">
+  
+                <h5>{{product.name}}</h5>
+                <p><span class="mr-1"><strong>Rs {{product.price}}</strong></span></p>
+  
+              </div>
+  
+            </div>
+            <!-- Card -->
+  
+          
+        </div>
+          
+          {% endfor %}
+           
+          </div>
+        </div>
+        
+        <div id="slide-right-container-2" style="margin-top: 165px;">
+          <div class="slide-right">
+           
+          </div>
+        </div>
+    
+      </div>
 
     </div>
     <!-- Grid row -->
@@ -307,7 +358,7 @@
 
 
 
-<script>
-
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/prodslider.js' %}"></script>
 {% endblock content %}
