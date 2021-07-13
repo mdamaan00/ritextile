@@ -1,3 +1,11 @@
+let mql = window.matchMedia('(max-width: 575px)');
+var cw;
+if (mql.matches==true){
+  cw = 250
+}else{
+  cw = 290
+}
+
 function updateSliderArrowsStatus(
     cardsContainer,
     containerWidth,
@@ -26,7 +34,7 @@ function updateSliderArrowsStatus(
       .children(".this-card").length;
     let speed = 300;
     let containerWidth = $(".container").width();
-    let cardWidth = 250;
+    let cardWidth = cw;
   
     updateSliderArrowsStatus(div, containerWidth, cardCount, cardWidth);
   
@@ -122,7 +130,7 @@ function updateSliderArrowsStatus(
       .children(".this-card").length;
     let speed = 300;
     let containerWidth = $(".container").width();
-    let cardWidth = 250;
+    let cardWidth = cw;
   
     updateSliderArrowsStatus(div, containerWidth, cardCount, cardWidth);
   
@@ -217,7 +225,7 @@ function updateSliderArrowsStatus(
       .children(".this-card").length;
     let speed = 300;
     let containerWidth = $(".container").width();
-    let cardWidth = 250;
+    let cardWidth = cw;
     updateSliderArrowsStatus(div, containerWidth, cardCount, cardWidth);
     $("#slide-right-container-2").click(function(e) {
       if ($(div).scrollLeft() + containerWidth < cardCount * cardWidth) {

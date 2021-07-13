@@ -20,9 +20,19 @@
   
   .this-card {
     border:none;
-    max-width: 235px;
-    width: 235px;
+    max-width: 275px;
+    width: 275px;
     margin: 15px 7.5px;
+  }
+
+  @media only screen and (max-width: 575px) {
+    .this-card {
+      border:none;
+      max-width: 235px;
+      width: 235px;
+      margin: 15px 7.5px;
+    }
+    
   }
   
   
