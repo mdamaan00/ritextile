@@ -45,8 +45,8 @@ $(document).ready(function () {
 
         });
 
-        $('.custom_list a').on('click', function (ev) {
-            ev.preventDefault();
+        $('.custom_list a').on('click', function (e) {
+            e.preventDefault();
             var index = $(this).parent().index();
 
             placeholder.text($(this).text()).css('opacity', '1');

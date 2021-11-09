@@ -61,6 +61,7 @@
     border-style: solid;
     height: 20px;
     width: 20px;
+    cursor: pointer;
     
   }
   
@@ -69,6 +70,7 @@
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
     margin-left: 40%;
+    cursor: pointer;
   }
   
   .slide-right {
@@ -76,4 +78,5 @@
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
     margin-left: 22%;
+    cursor: pointer;
   }

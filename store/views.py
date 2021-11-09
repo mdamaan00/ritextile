@@ -26,7 +26,6 @@ def home(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_item
     else:
-
         items = []
         order = {'get_cart_total':0,'get_cart_item':0,'shipping': False}
         cartItems = order['get_cart_item']
@@ -309,7 +308,6 @@ def products(request):
 
     myfilter = ItemFilter(request.GET,queryset= products)
     products = Paginator(myfilter.qs,6)
-
     page_number = request.GET.get("page")
     products_page_obj = products.get_page(page_number)
     context = {'products':products,'cartItems':cartItems,'materials':materials,

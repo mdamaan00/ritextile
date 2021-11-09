@@ -43,7 +43,7 @@ function updateSliderArrowsStatus(
       if ($(div).scrollLeft() + containerWidth < cardCount * cardWidth) {
         $(div).animate(
           {
-            scrollLeft: $(div).scrollLeft() + cardWidth
+            scrollLeft: "+=" + cardWidth
           },
           {
             duration: speed,
@@ -65,6 +65,7 @@ function updateSliderArrowsStatus(
     });
     $("#slide-left-container").click(function(e) {
       if ($(div).scrollLeft() + containerWidth > containerWidth) {
+      
         $(div).animate(
           {
             scrollLeft: "-=" + cardWidth
@@ -139,7 +140,7 @@ function updateSliderArrowsStatus(
       if ($(div).scrollLeft() + containerWidth < cardCount * cardWidth) {
         $(div).animate(
           {
-            scrollLeft: $(div).scrollLeft() + cardWidth
+            scrollLeft: "+=" + cardWidth
           },
           {
             duration: speed,
@@ -231,7 +232,7 @@ function updateSliderArrowsStatus(
       if ($(div).scrollLeft() + containerWidth < cardCount * cardWidth) {
         $(div).animate(
           {
-            scrollLeft: $(div).scrollLeft() + cardWidth
+            scrollLeft: "+=" + cardWidth
           },
           {
             duration: speed,
