@@ -49,13 +49,13 @@
             {% if orders %}
             <div class="box-element">
                 <div class="card-body">
-                    <h3>Your Orders:</h3>
+                    <h3><strong> Your Orders:</strong></h3>
                     <div class="row">
                         <div class="col">
-                            <h4>Order ID</h4>
+                            <h4><strong>Order ID</strong></h4>
                         </div>
                         <div class="col">
-                            <h4>Date Ordered</h4>
+                            <h4><strong>Date Ordered</strong></h4>
                         </div>
                         <div class="col">
                         </div>
@@ -65,10 +65,10 @@
 
                     <div class="row mb-3">
                         <div class="col">
-                            <p>#{{order.id}}</p>
+                            <p><strong>#{{order.id}}</strong></p>
                         </div>
                         <div class="col">
-                            <p>{{order.date_orderd}}</p>
+                            <p><strong> {{order.date_orderd}}</strong></p>
                         </div>
                         <div class="col" style="text-align: right;">
                             <a href="order-details/{{order.id}}" class="btn btn-success">Details</a>

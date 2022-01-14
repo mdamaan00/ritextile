@@ -22,7 +22,7 @@
         <!-- Card -->
         <div class="box-element wish-list mb-4">
           <div class="card-body">
-            <h4>Order Id: #{{orders.id}}</h4>
+            <h4>Order Id: <strong> #{{orders.id}}</strong></h4>
             <hr>
             <h5 class="mb-4">Total(<span id="cart-items">{{orders.get_cart_item}}</span> items)</h5>
             {% for item in item %}

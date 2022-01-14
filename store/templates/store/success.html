@@ -97,7 +97,7 @@
             {% for item in items %}
 
             <div class="cart-row">
-                <div style="flex:1"><a href="{% url 'products' %}{{item.product.id}}"><img class="row-image"
+                <div style="flex:1"><a href="{% url 'products' %}{{item.product.id}}"><img class="row-image clickable"
                             src="{{item.product.imageURL}}"></a></div>
                 <div style="flex:1">
                     <p>{{item.product.name}}</p>

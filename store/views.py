@@ -17,7 +17,7 @@ from .models import *
 from .filters import ItemFilter
 import json
 import datetime
-import stripe
+
 # Create your views here.
 def home(request):
     if request.user.is_authenticated:
@@ -37,6 +37,7 @@ def home(request):
     context = {'cartItems':cartItems,'categories':categories,'productsSaree':productsSaree[::-1],
     'productsDupatta':productsDupatta[::-1],'productsSuits':productsSuits[::-1],'products':products[::-1]}
     return render(request,'store/home.html',context)
+
 @login_required(login_url='login')
 def cart(request):
     if request.user.is_authenticated:
@@ -73,7 +74,6 @@ def checkout(request):
         address = ShippingAddress.objects.get(id=request.POST.get("id"),customer=customer)
         address.delete()
         return JsonResponse({'msg':"SUCCESS"})
-
 
     if request.POST.get('first_name') :
         first_name = request.POST.get('first_name')
@@ -141,42 +141,21 @@ def processOrder(request):
         data = request.POST.get('groupOfDefaultRadios')
         if request.POST.get('payment')=="cod":
             return redirect('checkout')
-        # transaction_id = datetime.datetime.now().timestamp()
-        # data = json.loads(request.body)
         if request.user.is_authenticated:
             customer = request.user
             order, created = Order.objects.get_or_create(customer=customer , complete=False)
+            context = {'order':order.id}
             if order.get_cart_item<=0:
                 return redirect('checkout')
-            # order.transaction_id = transaction_id
             tax = (5*order.get_cart_total)/100
             grandTotal = tax + order.get_cart_total
-            # order.total = order.get_cart_total
-            # order.tax = tax
-            # order.grandtotal = grandTotal
-            # order.complete = True
-            # order.status = 'Order Processing'
-            # order.save()
-            # items = order.orderitem_set.all()
-            # for item in items:
-            #     prod = Product.objects.get(id=item.product.id)
-            #     item.sp = item.get_total
-            #     item.save()
-            #     prod.stock -= item.quantity
-            #     if prod.stock<=0:
-            #         prod.available = False
-            #     prod.save()
-            # request.session['prod_id']=order.id
-            # request.session['address_id']=data
-            # request.session['customer_id']= request.user.id
-            # request.session['transaction_id']=transaction_id
-            # request.session['custom_url'] = int(data['customurl'])
             if order.shipping == True:
                 shippingaddress=ShippingAddress.objects.get(id=int(data))
                 address = AllAddresses.objects.get(mainaddressmodel=shippingaddress)
                 order.address = address
                 order.date_orderd = datetime.date.today()
             order.save()
+            
             params = {
              'MID':'GJrYCg15603646443443',
              'ORDER_ID':str(order.id),
@@ -185,12 +164,15 @@ def processOrder(request):
              'INDUSTRY_TYPE_ID':'Retail',
              'WEBSITE':'WEBSTAGING',
              'CHANNEL_ID':'WEB',
-             'CALLBACK_URL':'http://mdamaan00.pythonanywhere.com/handlerequest/',
+             'CALLBACK_URL':'http://127.0.0.1:8000/handlerequest/',
 
             }
             #http://ritextiles-test-2.herokuapp.com/
+            
             params['CHECKSUMHASH'] = checksum.generate_checksum(param_dict=params,merchant_key= "ke3Q@9&y8857%kZ&")
+            request.session['context'] = json.dumps(context)
             request.session['params'] = json.dumps(params)
+            
             return redirect('paytm')
         else:
             print('User is not logged in...')
@@ -408,45 +390,20 @@ def changePassword(request):
     else:
         return redirect('login')
 
-def success_handler(request):
-    if request.method == 'POST':
-        try:
-            data =request.POST
-            myid = int(data['id'])
-            order=Order.objects.get(id=myid,customer=request.user)
-            customer = request.user
-            items = order.orderitem_set.all()
-            emaildata = {'name':customer.first_name,'customer':customer,'order':order,'items':items}
-            template = render_to_string('store/email_template.html',emaildata)
-            email = EmailMessage(
-                'Thanks for your purchase',
-                template,
-                settings.EMAIL_HOST_USER,
-                [customer.email]
-                )
-            email.fail_silently = False
-            email.send()
-            return JsonResponse({'sent':"messege sent"})
-        except:
-            return JsonResponse({'sent':"messege sent"})
-    else:
-         return HttpResponse('error')
-    # elif order.complete==True and order.emailconfirm==True:
-    #     return render(request,'store/success.html',context)
 
 
-def success(request,myid):
+
+def success(request):
     try:
-        order=Order.objects.get(id=myid)
+        val = json.loads(request.session['context'])
+        order=Order.objects.get(id=val['order'])
+        items = order.orderitem_set.all()
+        context = {'customer':request.user,'order':order,'items':items}
+        del request.session['context']
     except:
-        return HttpResponse('error')
-    customer = order.customer
-    items = order.orderitem_set.all()
-    context = {'customer':customer,'order':order,'items':items}
-    if order.complete==True:
-        return render(request, 'store/success.html',context)
-    else:
-        return HttpResponse('error')
+        return HttpResponse('ERROR')
+    
+    return render(request, 'store/success.html',context)
 
 def contactUs(request):
     if request.user.is_authenticated:
@@ -644,10 +601,11 @@ def handlerequest(request):
                         email.send()
                     except:
                         pass
-                    return render(request, 'store/success.html',context)
+                    return redirect('success')
                 else:
                     items = order.orderitem_set.all()
                     new_order, created = Order.objects.get_or_create(customer=customer, complete=False,transaction_id=datetime.datetime.now().timestamp())
+                    print(new_order.id)
                     for item in items:
                         item.order=new_order
                         item.save()
@@ -667,12 +625,6 @@ def handlerequest(request):
                 order.delete()
                 messages.error(request,response_dict['RESPMSG'])
                 return redirect('checkout')
-            # if order.shipping == True:
-            #     shippingaddress=ShippingAddress.objects.get(id=int(request.session['address_id']))
-            #     address = AllAddresses.objects.get(mainaddressmodel=shippingaddress)
-            #     order.address = address
-            #     order.date_orderd = datetime.date.today()
-            # order.save()
         except:
             return HttpResponse('ERROR1')
     else:

@@ -25,7 +25,7 @@ SECRET_KEY = 'Ysjjpz0zu2y4kj-&6(6si0u6lti@olzol(b*vy1dbbmj$pqb55&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','ritextiles-test-2.herokuapp.com','mdamaan00.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1','ritextiles-test-2.herokuapp.com','mdamaan00.pythonanywhere.com','django-environ.eba-ntj6sd6m.us-west-2.elasticbeanstalk.com']
 
 
 # Application definition
