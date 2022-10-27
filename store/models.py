@@ -223,12 +223,3 @@ class OrderItem(models.Model):
         total = self.product.price * self.quantity
         return total
 
-class ContactUs(models.Model):
-    firstname = models.CharField(max_length=40, null=True)
-    lastname = models.CharField(max_length=40, null=True)
-    email = models.EmailField(null=True,max_length=200)
-    response = models.TextField(max_length=400,null=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return str(self.email)

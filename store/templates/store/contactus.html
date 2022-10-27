@@ -1,130 +1,22 @@
-{% extends 'store/main.html' %} {% block contactactive %}active{% endblock %} {%
-load static %} {% block content %}
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<html lang="en">
 
-<style>
-  .margin-top {
-    margin-top: 160px !important;
-  }
+<head>
 
-  @media (max-width: 991px) {
-    .margin-top {
-      margin-top: 250px !important;
-    }
-  }
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<!--Comment-->
+<body class="margin-top">
+    <h1>THIS PAGE IS UNDER DEVELOPMENT</h1>
+    <p><a href="{% url 'home' %}">&laquo; GO BACK TO SHOPPING</a></p>
+</body>
 
-  @media (max-width: 767px) {
-    .margin-top {
-      margin-top: 200px !important;
-    }
-  }
-
-  @media (max-width: 575px) {
-    .margin-top {
-      margin-top: 120px !important;
-    }
-  }
-
-  .fcontainer {
-    display: flex;
-    justify-content: center;
-    font-size: 30px;
-    margin-bottom: 30px;
-  }
-
-  .flex1 {
-    color: #155bb6;
-    transition: 0.2s;
-  }
-
-  .flex1:hover {
-    color: #0d3c79;
-  }
-
-  .flex2 {
-    margin-left: 20px;
-    transition: 0.2s;
-  }
-
-  .flex2:hover {
-    color: rgb(230, 230, 230);
-  }
-
-  .flex3 {
-    margin-left: 20px;
-    color: rgb(1, 64, 116);
-    transition: 0.2s;
-  }
-
-  .flex3:hover {
-    color: black;
-  }
-</style>
-
-<div class="jumbotron jumbotron-fluid margin-top" style="background-color: #ce2c789a">
-  <div class="container" style="text-align: center">
-    <h1 class="display-4" style="color: aliceblue; font-weight: 400;">Contact Us</h1>
-
-  </div>
-</div>
-<div class="container flex">
-  <h5 style="text-align: center; font-weight: 800;">Contact Us through our Social Media</h5>
-
-  <div class="fcontainer">
-    <a href="https://www.facebook.com/ritextiles247/" target="_blank"> <i class="fab fa-facebook flex1 ttip"
-        title="Facebook"></i></a>
-    <a href="https://api.whatsapp.com/send?phone=918318302968&fbclid=IwAR1meCjjfgH1FnKw0yC3QUNNa38VyiQW3LEqjSI_PFMxgx3dsi0K-0jaksU"
-      target="_blank"><i class="fab fa-whatsapp flex2 ttip" title="Whatsapp"></i></a>
-    <a href="https://www.instagram.com/ri.textiles/" target="_blank"><i class="fab fa-instagram flex3 ttip"
-        title="Instagram"></i></a>
-  </div>
-  <h5 class="container text-center divider-new version-1">
-    <strong>OR</strong>
-  </h5>
-  <p class="lead" style="font-weight: 400; margin-bottom: 40px; margin-top: -10px; text-align: center">
-    Do you have any questions? Please do not hesitate to contact us directly.
-    Our team will come back to you within a matter of hours to help you.
-  </p>
-  {% for message in messages %}
-  <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-    {{message}}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  {% endfor %}
-  <form action="" method="POST" class="mb-5">
-    {% csrf_token %}
-    <!-- 2 column grid layout with text inputs for the first and last names -->
-    <div class="row mb-4">
-      <div class="col">
-        <div class="form-outline">
-          <label class="form-label" for="form6Example1">First name</label>
-          <input type="text" id="form6Example1" data-toggle="tooltip" class="form-control" name="firstname" required />
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-outline">
-          <label class="form-label" for="form6Example2">Last name</label>
-          <input type="text" id="form6Example2" class="form-control" name="lastname" required />
-        </div>
-      </div>
-    </div>
-
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="form6Example5">Email</label>
-      <input type="email" id="form6Example5" class="form-control" name="email" required />
-    </div>
-
-    <!-- Message input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="form6Example7">Your Query</label>
-      <textarea class="form-control" id="form6Example7" rows="4" name="response" required></textarea>
-    </div>
-
-    <!-- Submit button -->
-    <button type="submit" class="btn btn-success btn-block">Submit</button>
-  </form>
-</div>
-
+</html>
 {% endblock %}

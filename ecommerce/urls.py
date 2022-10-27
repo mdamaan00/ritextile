@@ -32,7 +32,6 @@ urlpatterns = [
     path('',views.home,name='home'),
     path('cart/',views.cart,name='cart'),
     path('products/',views.products,name='products'),
-    path('contactus/',views.contactUs,name='contactus'),
     path('aboutus/',views.aboutUs,name='aboutus'),
     path('search/',views.search,name='search'),
     path('checkout/',views.checkout,name='checkout'),
