@@ -602,8 +602,35 @@ def handlerequest(request):
         return HttpResponse('ERROR2')
 
 
-
-
+def contactUs(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer , complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_item
+    else:
+        items = []
+        order = {'get_cart_total':0,'get_cart_item':0,'shipping': False}
+        cartItems = order['get_cart_item']
+    if request.method == 'POST':
+        print('hello')
+        messages.success(request,'Your response has been regestered successfully!')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        email = request.POST.get('email')
+        response = request.POST.get('response')
+        ContactUs.objects.create(
+            firstname=firstname,
+            lastname = lastname,
+            email = email,
+            response = response,
+        )
+        return redirect('contactus')
+    else:
+        pass
+    categories = Categories.objects.all()
+    context= {'categories': categories,'cartItems':cartItems}
+    return render(request,'store/contactus.html',context)
 
 
 #DELETING A SESSION
